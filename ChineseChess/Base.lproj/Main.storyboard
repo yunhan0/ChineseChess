@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="cQC-KV-OAe">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--操作-->
+        <scene sceneID="tBB-a1-0Y8">
+            <objects>
+                <viewController id="rPM-dW-X4D" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Yks-tp-1Lb"/>
+                        <viewControllerLayoutGuide type="bottom" id="saz-8g-cPB"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Y8z-Ph-H60">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="操作" id="TdV-kA-Kam"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="idd-nM-dtm" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="638" y="-351"/>
+        </scene>
+        <!--Split View Controller-->
+        <scene sceneID="ql7-aV-Kwr">
+            <objects>
+                <splitViewController id="cQC-KV-OAe" sceneMemberID="viewController">
+                    <connections>
+                        <segue destination="Ier-Xe-8cW" kind="relationship" relationship="detailViewController" id="9hb-9P-uA1"/>
+                        <segue destination="S97-wg-9rx" kind="relationship" relationship="masterViewController" id="zM0-SQ-evk"/>
+                    </connections>
+                </splitViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="pqv-AO-bBB" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1352" y="-49"/>
+        </scene>
+        <!--中国象棋-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ChessViewController" customModule="ChineseChess" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Kn5-WM-kl4" customClass="ChessView" customModule="ChineseChess" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <color key="backgroundColor" red="0.72941176470588232" green="0.61176470588235299" blue="0.37647058823529411" alpha="1" colorSpace="calibratedRGB"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="Kn5-WM-kl4" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="ECx-p8-qDu"/>
+                            <constraint firstAttribute="trailing" secondItem="Kn5-WM-kl4" secondAttribute="trailing" id="aJ2-Hc-N9R"/>
+                            <constraint firstItem="Kn5-WM-kl4" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="r60-i0-Krt"/>
+                            <constraint firstItem="Kn5-WM-kl4" firstAttribute="bottom" secondItem="wfy-db-euE" secondAttribute="top" id="yxj-s4-f0U"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="中国象棋" id="tQJ-GN-Zn1"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1500" y="406.14692653673166"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="mUG-1A-K98">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="S97-wg-9rx" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="5pa-ES-1iU">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="rPM-dW-X4D" kind="relationship" relationship="rootViewController" id="Z5N-rR-KMi"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="8sC-GR-jX1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-386" y="-351"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="IfZ-tF-6E0">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Ier-Xe-8cW" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Vab-lm-HpD">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="BJq-yf-Ap6"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="H1P-mH-yzv" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="560.79999999999995" y="406.14692653673166"/>
+        </scene>
+    </scenes>
+</document>
