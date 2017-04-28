@@ -8,6 +8,7 @@
 
 import UIKit
 
+@IBDesignable
 class ChessView: UIView {
     
     var scale: CGFloat = 1.0
