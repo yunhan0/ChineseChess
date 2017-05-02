@@ -7,85 +7,131 @@
 //
 
 import UIKit
+import Dispatch
 
 @IBDesignable
 class ChessView: UIView {
     
-    var scale: CGFloat = 1.0
+    @IBInspectable
+    var lineWidth: CGFloat = 2 { didSet { setNeedsDisplay(); board.lineWidth = lineWidth } }
+    @IBInspectable
+    var color: UIColor = UIColor.black { didSet { setNeedsDisplay(); board.color = color } }
     
-    // Chinese Chess board has 9 rows and 8 columns
-    let boardRowsNumber: CGFloat = 9
-    let boardColsNumber: CGFloat = 8
-    var boardCoordinates = [String : CGPoint]()
-    
-    private var boardHeight: CGFloat {
-        return min(bounds.size.width, bounds.size.height) * scale
+    private enum Player {
+        case Black
+        case Red
     }
     
-    private var gridWidth: CGFloat {
-        return boardHeight / boardRowsNumber
+    private enum Piece {
+        case King
+        case Guard
+        case Bishop
+        case Horse
+        case Rook
+        case Cannon
+        case Solder
+        case General
     }
     
-    private var boardWidth: CGFloat {
-        return gridWidth * boardColsNumber
+    private var board: BoardView {
+        return self.createBoard()
     }
     
-    private var boardCenter: CGPoint {
-        return CGPoint(x: bounds.midX, y: bounds.midY)
-    }
-    
-    private func pathForLine(startPoint: CGPoint, endPoint: CGPoint) -> UIBezierPath {
-        let path = UIBezierPath()
-        path.move(to: startPoint)
-        path.addLine(to: endPoint)
-        path.close()
-        path.lineWidth = 2.0
-        return path
-    }
-    
-    private func resetBoardCoordinates() {
-        boardCoordinates.removeAll()
-    }
-    
-    override func draw(_ rect: CGRect) {
-        UIColor.black.set()
-        
-        resetBoardCoordinates()
-        
-        let startX = boardCenter.x - (boardWidth / 2),
-            startY = boardCenter.y - (boardHeight / 2),
-            endX = startX + boardWidth,
-            endY = startY + boardHeight,
-            breakPointY1 = startY + gridWidth * 4,
-            breakPointY2 = startY + gridWidth * 5
-        
-        var indexOfX = 0, indexOfY = 0
-        
-        for _x in stride(from: startX, through: endX, by: gridWidth) {
-            for _y in stride(from: startY, through: endY, by: gridWidth) {
-                // Draw the vertical line
-                if(_y == startY) {
-                    if(_x == startX || _x == endX) {
-                        pathForLine(startPoint: CGPoint(x: _x, y: startY), endPoint: CGPoint(x: _x, y: endY)).stroke()
-                    } else {
-                        pathForLine(startPoint: CGPoint(x: _x, y: startY), endPoint: CGPoint(x: _x, y: breakPointY1)).stroke()
-                        pathForLine(startPoint: CGPoint(x: _x, y: breakPointY2), endPoint: CGPoint(x: _x, y: endY)).stroke()
-                    }
-                }
-                
-                // Draw the horizontal line
-                if(_x == startX) {
-                    pathForLine(startPoint: CGPoint(x: startX, y: _y), endPoint: CGPoint(x: endX, y: _y)).stroke()
-                }
-                
-                boardCoordinates["R\(indexOfX)C\(indexOfY)"] = CGPoint(x: _x, y: _y)
-                indexOfY += 1
-            }
-            
-            indexOfX += 1
-        }
-        
-        print(boardCoordinates.count)
+    private func createBoard() -> BoardView {
+        let board = BoardView()
+        board.isOpaque = false
+        board.color = color
+        board.lineWidth = lineWidth
+        self.addSubview(board)
+        return board
     }
 
+    private func positionBoard(board: BoardView) {
+        board.frame = bounds
+        board.center = CGPoint(x: bounds.midX, y: bounds.midY)
+    }
+    
+    // Player: Black
+    private lazy var rookPieceLeft: PieceView = self.createPiece(Piece.Rook, player: Player.Black)
+    private lazy var horsePieceLeft: PieceView = self.createPiece(Piece.Horse, player: Player.Black)
+    private lazy var bishopPieceLeft: PieceView = self.createPiece(Piece.Bishop, player: Player.Black)
+    private lazy var guardPieceLeft: PieceView = self.createPiece(Piece.Guard, player: Player.Black)
+    private lazy var kingPiece: PieceView = self.createPiece(Piece.King, player: Player.Black)
+    private lazy var guardPieceRight: PieceView = self.createPiece(Piece.Guard, player: Player.Black)
+    private lazy var bishopPieceRight: PieceView = self.createPiece(Piece.Bishop, player: Player.Black)
+    private lazy var horsePieceRight: PieceView = self.createPiece(Piece.Horse, player: Player.Black)
+    private lazy var rookPieceRight: PieceView = self.createPiece(Piece.Rook, player: Player.Black)
+    
+    // Player: Red
+    private lazy var charlotPieceLeft: PieceView = self.createPiece(Piece.Rook, player: Player.Red)
+    private lazy var knightPieceLeft: PieceView = self.createPiece(Piece.Horse, player: Player.Red)
+    private lazy var elephantPieceLeft: PieceView = self.createPiece(Piece.Bishop, player: Player.Red)
+    private lazy var advisorPieceLeft: PieceView = self.createPiece(Piece.Guard, player: Player.Red)
+    private lazy var generalPiece: PieceView = self.createPiece(Piece.General, player: Player.Red)
+    private lazy var advisorPieceRight: PieceView = self.createPiece(Piece.Guard, player: Player.Red)
+    private lazy var elephantPieceRight: PieceView = self.createPiece(Piece.Bishop, player: Player.Red)
+    private lazy var knightPieceRight: PieceView = self.createPiece(Piece.Horse, player: Player.Red)
+    private lazy var charlotPieceRight: PieceView = self.createPiece(Piece.Rook, player: Player.Red)
+    
+    private func createPiece(_ piece: Piece, player: Player) -> PieceView {
+        let _name: String
+        let _color: UIColor
+  
+        switch player {
+        case .Black: _color = .black
+        case .Red: _color = .red
+        }
+        
+        switch piece {
+        case .King: _name = "将"
+        case .Bishop: _name = "象"
+        case .Horse: _name = "马"
+        case .Guard: _name = "士"
+        case .Rook: _name = "車"
+        case .Cannon: _name = "炮"
+        case .Solder: _name = "兵"
+        case .General: _name = "帅"
+        }
+        
+        let piece = PieceView(_name)
+        piece.setChessColor(color: _color)
+        self.addSubview(piece)
+        return piece
+    }
+    
+    private func positionPiece(piece: PieceView, center: CGPoint) {
+        let size = board.gridWidth * 0.9
+        piece.frame = CGRect(origin: CGPoint.zero, size: CGSize(width: size, height: size))
+        piece.center = center
+        piece.setRadius(radius: size / 2)
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+     
+        positionBoard(board: self.board)
+        
+        // Player: Black
+        //            positionPiece(piece: rookPieceLeft, center: boardCoordinates["R0C0"]!)
+        //            positionPiece(piece: horsePieceLeft, center: boardCoordinates["R0C1"]!)
+        //            positionPiece(piece: bishopPieceLeft, center: boardCoordinates["R0C2"]!)
+        //            positionPiece(piece: guardPieceLeft, center: boardCoordinates["R0C3"]!)
+        //            positionPiece(piece: kingPiece, center: boardCoordinates["R0C4"]!)
+        //            positionPiece(piece: guardPieceRight, center: boardCoordinates["R0C5"]!)
+        //            positionPiece(piece: bishopPieceRight, center: boardCoordinates["R0C6"]!)
+        //            positionPiece(piece: horsePieceRight, center: boardCoordinates["R0C7"]!)
+        //            positionPiece(piece: rookPieceRight, center: boardCoordinates["R0C8"]!)
+        //
+        //            // Player: Red
+        //            positionPiece(piece: charlotPieceLeft, center: boardCoordinates["R9C0"]!)
+        //            positionPiece(piece: knightPieceLeft, center: boardCoordinates["R9C1"]!)
+        //            positionPiece(piece: elephantPieceLeft, center: boardCoordinates["R9C2"]!)
+        //            positionPiece(piece: advisorPieceLeft, center: boardCoordinates["R9C3"]!)
+        //            positionPiece(piece: generalPiece, center: boardCoordinates["R9C4"]!)
+        //            positionPiece(piece: advisorPieceRight, center: boardCoordinates["R9C5"]!)
+        //            positionPiece(piece: elephantPieceRight, center: boardCoordinates["R9C6"]!)
+        //            positionPiece(piece: knightPieceRight, center: boardCoordinates["R9C7"]!)
+        //            positionPiece(piece: charlotPieceRight, center: boardCoordinates["R9C8"]!)
+
+    }
 }

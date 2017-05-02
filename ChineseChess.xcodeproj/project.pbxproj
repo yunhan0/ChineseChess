@@ -7,17 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3797C6741EB314390053B57A /* Piece.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3797C6731EB314390053B57A /* Piece.swift */; };
 		B5559A581EAF5A210089BF2F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5559A571EAF5A210089BF2F /* AppDelegate.swift */; };
 		B5559A5A1EAF5A210089BF2F /* ChessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5559A591EAF5A210089BF2F /* ChessViewController.swift */; };
 		B5559A5D1EAF5A210089BF2F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B5559A5B1EAF5A210089BF2F /* Main.storyboard */; };
 		B5559A5F1EAF5A210089BF2F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B5559A5E1EAF5A210089BF2F /* Assets.xcassets */; };
 		B5559A621EAF5A210089BF2F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B5559A601EAF5A210089BF2F /* LaunchScreen.storyboard */; };
 		B5559A6B1EAF629F0089BF2F /* ChessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5559A6A1EAF629F0089BF2F /* ChessView.swift */; };
+		B5BE4E551EB4BAC600510454 /* PieceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5BE4E541EB4BAC600510454 /* PieceView.swift */; };
+		B5F1C1141EB8C57F00CEBC8F /* BoardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F1C1131EB8C57F00CEBC8F /* BoardView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		3797C6731EB314390053B57A /* Piece.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Piece.swift; sourceTree = "<group>"; };
 		B5559A541EAF5A210089BF2F /* ChineseChess.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChineseChess.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5559A571EAF5A210089BF2F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B5559A591EAF5A210089BF2F /* ChessViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChessViewController.swift; sourceTree = "<group>"; };
@@ -26,6 +26,8 @@
 		B5559A611EAF5A210089BF2F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B5559A631EAF5A210089BF2F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B5559A6A1EAF629F0089BF2F /* ChessView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChessView.swift; sourceTree = "<group>"; };
+		B5BE4E541EB4BAC600510454 /* PieceView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PieceView.swift; sourceTree = "<group>"; };
+		B5F1C1131EB8C57F00CEBC8F /* BoardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoardView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,7 +63,8 @@
 				B5559A691EAF5A400089BF2F /* SupportingFiles */,
 				B5559A591EAF5A210089BF2F /* ChessViewController.swift */,
 				B5559A6A1EAF629F0089BF2F /* ChessView.swift */,
-				3797C6731EB314390053B57A /* Piece.swift */,
+				B5BE4E541EB4BAC600510454 /* PieceView.swift */,
+				B5F1C1131EB8C57F00CEBC8F /* BoardView.swift */,
 				B5559A5B1EAF5A210089BF2F /* Main.storyboard */,
 			);
 			path = ChineseChess;
@@ -151,10 +154,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3797C6741EB314390053B57A /* Piece.swift in Sources */,
 				B5559A5A1EAF5A210089BF2F /* ChessViewController.swift in Sources */,
 				B5559A581EAF5A210089BF2F /* AppDelegate.swift in Sources */,
+				B5F1C1141EB8C57F00CEBC8F /* BoardView.swift in Sources */,
 				B5559A6B1EAF629F0089BF2F /* ChessView.swift in Sources */,
+				B5BE4E551EB4BAC600510454 /* PieceView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
