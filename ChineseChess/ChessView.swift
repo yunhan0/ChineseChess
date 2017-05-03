@@ -29,8 +29,9 @@ class ChessView: UIView {
         case Horse
         case Rook
         case Cannon
-        case Solder
+        case Soldier
         case General
+        case Pawn
     }
     
     private lazy var board: BoardView = self.createBoard()
@@ -59,6 +60,13 @@ class ChessView: UIView {
     private lazy var bishopPieceRight: PieceView = self.createPiece(Piece.Bishop, player: Player.Black)
     private lazy var horsePieceRight: PieceView = self.createPiece(Piece.Horse, player: Player.Black)
     private lazy var rookPieceRight: PieceView = self.createPiece(Piece.Rook, player: Player.Black)
+    private lazy var cannonPieceLeft: PieceView = self.createPiece(Piece.Cannon, player: Player.Black)
+    private lazy var cannonPieceRight: PieceView = self.createPiece(Piece.Cannon, player: Player.Black)
+    private lazy var soldierOne: PieceView = self.createPiece(Piece.Soldier, player: Player.Black)
+    private lazy var soldierTwo: PieceView = self.createPiece(Piece.Soldier, player: Player.Black)
+    private lazy var soldierThree: PieceView = self.createPiece(Piece.Soldier, player: Player.Black)
+    private lazy var soldierFour: PieceView = self.createPiece(Piece.Soldier, player: Player.Black)
+    private lazy var soldierFive: PieceView = self.createPiece(Piece.Soldier, player: Player.Black)
     
     // Player: Red
     private lazy var charlotPieceLeft: PieceView = self.createPiece(Piece.Rook, player: Player.Red)
@@ -70,6 +78,13 @@ class ChessView: UIView {
     private lazy var elephantPieceRight: PieceView = self.createPiece(Piece.Bishop, player: Player.Red)
     private lazy var knightPieceRight: PieceView = self.createPiece(Piece.Horse, player: Player.Red)
     private lazy var charlotPieceRight: PieceView = self.createPiece(Piece.Rook, player: Player.Red)
+    private lazy var ordnancePieceLeft: PieceView = self.createPiece(Piece.Cannon, player: Player.Red)
+    private lazy var ordnancePieceRight: PieceView = self.createPiece(Piece.Cannon, player: Player.Red)
+    private lazy var pawnOne: PieceView = self.createPiece(Piece.Pawn, player: Player.Red)
+    private lazy var pawnTwo: PieceView = self.createPiece(Piece.Pawn, player: Player.Red)
+    private lazy var pawnThree: PieceView = self.createPiece(Piece.Pawn, player: Player.Red)
+    private lazy var pawnFour: PieceView = self.createPiece(Piece.Pawn, player: Player.Red)
+    private lazy var pawnFive: PieceView = self.createPiece(Piece.Pawn, player: Player.Red)
     
     private func createPiece(_ piece: Piece, player: Player) -> PieceView {
         let _name: String
@@ -87,8 +102,9 @@ class ChessView: UIView {
         case .Guard: _name = "士"
         case .Rook: _name = "車"
         case .Cannon: _name = "炮"
-        case .Solder: _name = "兵"
+        case .Soldier: _name = "兵"
         case .General: _name = "帅"
+        case .Pawn: _name = "卒"
         }
         
         let piece = PieceView(_name)
@@ -121,6 +137,14 @@ class ChessView: UIView {
         positionPiece(piece: bishopPieceRight, center: m[0][6])
         positionPiece(piece: horsePieceRight, center: m[0][7])
         positionPiece(piece: rookPieceRight, center: m[0][8])
+        positionPiece(piece: cannonPieceLeft, center: m[2][1])
+        positionPiece(piece: cannonPieceRight, center: m[2][7])
+        
+        positionPiece(piece: soldierOne, center: m[3][0])
+        positionPiece(piece: soldierTwo, center: m[3][2])
+        positionPiece(piece: soldierThree, center: m[3][4])
+        positionPiece(piece: soldierFour, center: m[3][6])
+        positionPiece(piece: soldierFive, center: m[3][8])
         
         // Player: Red
         positionPiece(piece: charlotPieceLeft, center: m[9][0])
@@ -132,5 +156,14 @@ class ChessView: UIView {
         positionPiece(piece: elephantPieceRight, center: m[9][6])
         positionPiece(piece: knightPieceRight, center: m[9][7])
         positionPiece(piece: charlotPieceRight, center: m[9][8])
+        positionPiece(piece: ordnancePieceLeft, center: m[2][1])
+        positionPiece(piece: ordnancePieceLeft, center: m[7][1])
+        positionPiece(piece: ordnancePieceRight, center: m[7][7])
+        
+        positionPiece(piece: pawnOne, center: m[6][0])
+        positionPiece(piece: pawnTwo, center: m[6][2])
+        positionPiece(piece: pawnThree, center: m[6][4])
+        positionPiece(piece: pawnFour, center: m[6][6])
+        positionPiece(piece: pawnFive, center: m[6][8])
     }
 }
