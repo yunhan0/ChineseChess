@@ -13,29 +13,47 @@ class BoardView: UIView {
     var color: UIColor = UIColor.black { didSet { setNeedsDisplay() } }
 
     // Chinese Chess board has 9 rows and 8 columns
-    let boardRowsNumber: CGFloat = 9
-    let boardColsNumber: CGFloat = 8
+    let rows: CGFloat = 9, columns: CGFloat = 8
 
     private var boardHeight: CGFloat {
         return min(bounds.size.width, bounds.size.height)
     }
     
     public var gridWidth: CGFloat {
-        return boardHeight / boardRowsNumber
+        return boardHeight / rows
     }
     
     private var boardWidth: CGFloat {
-        return gridWidth * boardColsNumber
+        return gridWidth * columns
     }
     
     private var boardCenter: CGPoint {
         return CGPoint(x: bounds.midX, y: bounds.midY)
     }
     
-    public var boardCoordinates = [String : CGPoint]()
+    public var boardCoordinates : [[CGPoint]] {
+        let startX = boardCenter.x - (boardWidth / 2),
+        startY = boardCenter.y - (boardHeight / 2),
+        endX = startX + boardWidth,
+        endY = startY + boardHeight
+        
+        var ret = [[CGPoint]]()
+
+        for _y in stride(from: startY, through: endY, by: gridWidth) {
+            var foo = [CGPoint]()
+            
+            for _x in stride(from: startX, through: endX, by: gridWidth) {
+                foo.append(CGPoint(x: _x, y: _y))
+            }
+            
+            ret.append(foo)
+        }
+
+        return ret
+    }
 
     public func resetBoardCoordinates() {
-        boardCoordinates.removeAll()
+        //boardCoordinates.removeAll()
     }
     
     private func pathForLine(startPoint: CGPoint, endPoint: CGPoint) -> UIBezierPath {
@@ -50,40 +68,24 @@ class BoardView: UIView {
     override func draw(_ rect: CGRect) {
         color.set()
         
-        resetBoardCoordinates()
-        
-        let startX = boardCenter.x - (boardWidth / 2),
-        startY = boardCenter.y - (boardHeight / 2),
-        endX = startX + boardWidth,
-        endY = startY + boardHeight,
-        breakPointY1 = startY + gridWidth * 4,
-        breakPointY2 = startY + gridWidth * 5
-        
-        var indexOfX = 0, indexOfY = 0
-        
-        for _x in stride(from: startX, through: endX, by: gridWidth) {
-            for _y in stride(from: startY, through: endY, by: gridWidth) {
-                // Draw the vertical line
-                if(_y == startY) {
-                    if(_x == startX || _x == endX) {
-                        pathForLine(startPoint: CGPoint(x: _x, y: startY), endPoint: CGPoint(x: _x, y: endY)).stroke()
-                    } else {
-                        pathForLine(startPoint: CGPoint(x: _x, y: startY), endPoint: CGPoint(x: _x, y: breakPointY1)).stroke()
-                        pathForLine(startPoint: CGPoint(x: _x, y: breakPointY2), endPoint: CGPoint(x: _x, y: endY)).stroke()
-                    }
-                }
-                
-                // Draw the horizontal line
-                if(_x == startX) {
-                    pathForLine(startPoint: CGPoint(x: startX, y: _y), endPoint: CGPoint(x: endX, y: _y)).stroke()
-                }
-                
-                boardCoordinates["R\(indexOfY)C\(indexOfX)"] = CGPoint(x: _x, y: _y)
-                indexOfY += 1
+        let m = self.boardCoordinates
+
+        for i in 0...9 {
+             // Draw the horizontal line
+            pathForLine(startPoint: m[i][0], endPoint: m[i][8]).stroke()
+            // Draw the vertical line
+            if (i == 0 || i == 8) {
+                pathForLine(startPoint: m[0][i], endPoint: m[9][i]).stroke()
+            } else if (i != 9) {
+                pathForLine(startPoint: m[0][i], endPoint: m[4][i]).stroke()
+                pathForLine(startPoint: m[5][i], endPoint: m[9][i]).stroke()
             }
-            
-            indexOfX += 1
-            indexOfY = 0
         }
+        
+        // Draw diagonal
+        pathForLine(startPoint: m[0][3], endPoint: m[2][5]).stroke()
+        pathForLine(startPoint: m[0][5], endPoint: m[2][3]).stroke()
+        pathForLine(startPoint: m[7][3], endPoint: m[9][5]).stroke()
+        pathForLine(startPoint: m[7][5], endPoint: m[9][3]).stroke()
     }
 }

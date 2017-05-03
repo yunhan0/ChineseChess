@@ -33,9 +33,7 @@ class ChessView: UIView {
         case General
     }
     
-    private var board: BoardView {
-        return self.createBoard()
-    }
+    private lazy var board: BoardView = self.createBoard()
     
     private func createBoard() -> BoardView {
         let board = BoardView()
@@ -111,27 +109,28 @@ class ChessView: UIView {
      
         positionBoard(board: self.board)
         
+        let m = board.boardCoordinates
+        
         // Player: Black
-        //            positionPiece(piece: rookPieceLeft, center: boardCoordinates["R0C0"]!)
-        //            positionPiece(piece: horsePieceLeft, center: boardCoordinates["R0C1"]!)
-        //            positionPiece(piece: bishopPieceLeft, center: boardCoordinates["R0C2"]!)
-        //            positionPiece(piece: guardPieceLeft, center: boardCoordinates["R0C3"]!)
-        //            positionPiece(piece: kingPiece, center: boardCoordinates["R0C4"]!)
-        //            positionPiece(piece: guardPieceRight, center: boardCoordinates["R0C5"]!)
-        //            positionPiece(piece: bishopPieceRight, center: boardCoordinates["R0C6"]!)
-        //            positionPiece(piece: horsePieceRight, center: boardCoordinates["R0C7"]!)
-        //            positionPiece(piece: rookPieceRight, center: boardCoordinates["R0C8"]!)
-        //
-        //            // Player: Red
-        //            positionPiece(piece: charlotPieceLeft, center: boardCoordinates["R9C0"]!)
-        //            positionPiece(piece: knightPieceLeft, center: boardCoordinates["R9C1"]!)
-        //            positionPiece(piece: elephantPieceLeft, center: boardCoordinates["R9C2"]!)
-        //            positionPiece(piece: advisorPieceLeft, center: boardCoordinates["R9C3"]!)
-        //            positionPiece(piece: generalPiece, center: boardCoordinates["R9C4"]!)
-        //            positionPiece(piece: advisorPieceRight, center: boardCoordinates["R9C5"]!)
-        //            positionPiece(piece: elephantPieceRight, center: boardCoordinates["R9C6"]!)
-        //            positionPiece(piece: knightPieceRight, center: boardCoordinates["R9C7"]!)
-        //            positionPiece(piece: charlotPieceRight, center: boardCoordinates["R9C8"]!)
-
+        positionPiece(piece: rookPieceLeft, center: m[0][0])
+        positionPiece(piece: horsePieceLeft, center: m[0][1])
+        positionPiece(piece: bishopPieceLeft, center: m[0][2])
+        positionPiece(piece: guardPieceLeft, center: m[0][3])
+        positionPiece(piece: kingPiece, center: m[0][4])
+        positionPiece(piece: guardPieceRight, center: m[0][5])
+        positionPiece(piece: bishopPieceRight, center: m[0][6])
+        positionPiece(piece: horsePieceRight, center: m[0][7])
+        positionPiece(piece: rookPieceRight, center: m[0][8])
+        
+        // Player: Red
+        positionPiece(piece: charlotPieceLeft, center: m[9][0])
+        positionPiece(piece: knightPieceLeft, center: m[9][1])
+        positionPiece(piece: elephantPieceLeft, center: m[9][2])
+        positionPiece(piece: advisorPieceLeft, center: m[9][3])
+        positionPiece(piece: generalPiece, center: m[9][4])
+        positionPiece(piece: advisorPieceRight, center: m[9][5])
+        positionPiece(piece: elephantPieceRight, center: m[9][6])
+        positionPiece(piece: knightPieceRight, center: m[9][7])
+        positionPiece(piece: charlotPieceRight, center: m[9][8])
     }
 }
