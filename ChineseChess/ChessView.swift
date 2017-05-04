@@ -7,7 +7,23 @@
 //
 
 import UIKit
-import Dispatch
+
+enum Player {
+    case Black
+    case Red
+}
+
+enum Piece {
+    case King
+    case Guard
+    case Bishop
+    case Horse
+    case Rook
+    case Cannon
+    case Soldier
+    case General
+    case Pawn
+}
 
 @IBDesignable
 class ChessView: UIView {
@@ -16,23 +32,6 @@ class ChessView: UIView {
     var lineWidth: CGFloat = 2 { didSet { setNeedsDisplay(); board.lineWidth = lineWidth } }
     @IBInspectable
     var color: UIColor = UIColor.black { didSet { setNeedsDisplay(); board.color = color } }
-    
-    private enum Player {
-        case Black
-        case Red
-    }
-    
-    private enum Piece {
-        case King
-        case Guard
-        case Bishop
-        case Horse
-        case Rook
-        case Cannon
-        case Soldier
-        case General
-        case Pawn
-    }
     
     private lazy var board: BoardView = self.createBoard()
     
@@ -90,11 +89,6 @@ class ChessView: UIView {
         let _name: String
         let _color: UIColor
   
-        switch player {
-        case .Black: _color = .black
-        case .Red: _color = .red
-        }
-        
         switch piece {
         case .King: _name = "将"
         case .Bishop: _name = "象"
@@ -108,6 +102,12 @@ class ChessView: UIView {
         }
         
         let piece = PieceView(_name)
+        
+        switch player {
+        case .Black: _color = .black; piece.transform = piece.transform.rotated(by: CGFloat.pi)
+        case .Red: _color = .red
+        }
+        
         piece.setChessColor(color: _color)
         self.addSubview(piece)
         return piece
