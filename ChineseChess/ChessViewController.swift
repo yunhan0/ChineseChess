@@ -14,8 +14,12 @@ class ChessViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+
+        let tap = UITapGestureRecognizer(target: self, action: #selector(getCoordinates))
+        tap.numberOfTapsRequired = 1
+        chessView.board.addGestureRecognizer(tap)
         chessView.addSubview(chessView.board)
+        
         for piece in chessView.pieceViews {
             piece.addTarget(self,action: #selector(performOperation(sender:)), for: .touchUpInside)
             chessView.addSubview(piece)
@@ -33,6 +37,12 @@ class ChessViewController: UIViewController {
         if let label = sender.currentTitle {
             print(label)
         }
+    }
+    
+    func getCoordinates(recognizer: UITapGestureRecognizer) {
+        let position = recognizer.location(in: chessView.board)
+        
+        print(round(position.x), round(position.y))
     }
 }
 
