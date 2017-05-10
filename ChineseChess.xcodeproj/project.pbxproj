@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B50A82701EC32BD8001674B9 /* ChessBrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = B50A826F1EC32BD8001674B9 /* ChessBrain.swift */; };
 		B5559A581EAF5A210089BF2F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5559A571EAF5A210089BF2F /* AppDelegate.swift */; };
 		B5559A5A1EAF5A210089BF2F /* ChessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5559A591EAF5A210089BF2F /* ChessViewController.swift */; };
 		B5559A5D1EAF5A210089BF2F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B5559A5B1EAF5A210089BF2F /* Main.storyboard */; };
@@ -18,6 +19,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B50A826F1EC32BD8001674B9 /* ChessBrain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChessBrain.swift; sourceTree = "<group>"; };
 		B5559A541EAF5A210089BF2F /* ChineseChess.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChineseChess.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5559A571EAF5A210089BF2F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B5559A591EAF5A210089BF2F /* ChessViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChessViewController.swift; sourceTree = "<group>"; };
@@ -62,6 +64,7 @@
 			children = (
 				B5559A691EAF5A400089BF2F /* SupportingFiles */,
 				B5559A591EAF5A210089BF2F /* ChessViewController.swift */,
+				B50A826F1EC32BD8001674B9 /* ChessBrain.swift */,
 				B5559A6A1EAF629F0089BF2F /* ChessView.swift */,
 				B5BE4E541EB4BAC600510454 /* PieceView.swift */,
 				B5F1C1131EB8C57F00CEBC8F /* BoardView.swift */,
@@ -157,6 +160,7 @@
 				B5559A5A1EAF5A210089BF2F /* ChessViewController.swift in Sources */,
 				B5559A581EAF5A210089BF2F /* AppDelegate.swift in Sources */,
 				B5F1C1141EB8C57F00CEBC8F /* BoardView.swift in Sources */,
+				B50A82701EC32BD8001674B9 /* ChessBrain.swift in Sources */,
 				B5559A6B1EAF629F0089BF2F /* ChessView.swift in Sources */,
 				B5BE4E551EB4BAC600510454 /* PieceView.swift in Sources */,
 			);

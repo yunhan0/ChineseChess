@@ -8,7 +8,7 @@
 
 import UIKit
 
-class PieceView: UILabel {
+class PieceView: UIButton {
     var _textColor: UIColor = UIColor.white
     
     init(_ name: String) {
@@ -21,9 +21,8 @@ class PieceView: UILabel {
     }
 
     func setup(_ name: String) {
-        self.text = name
-        self.textAlignment = .center
-        self.textColor = _textColor
+        self.setTitle(name, for: .normal)
+        self.setTitleColor(_textColor, for: .normal)
         self.layer.masksToBounds = true
         self.layer.display()
     }

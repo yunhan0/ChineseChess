@@ -35,6 +35,9 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="中国象棋" id="tQJ-GN-Zn1"/>
+                    <connections>
+                        <outlet property="chessView" destination="Kn5-WM-kl4" id="WYs-ed-XSQ"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>

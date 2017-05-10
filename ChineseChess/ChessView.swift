@@ -33,14 +33,13 @@ class ChessView: UIView {
     @IBInspectable
     var color: UIColor = UIColor.black { didSet { setNeedsDisplay(); board.color = color } }
     
-    private lazy var board: BoardView = self.createBoard()
+    public lazy var board: BoardView = self.createBoard()
     
     private func createBoard() -> BoardView {
         let board = BoardView()
         board.isOpaque = false
         board.color = color
         board.lineWidth = lineWidth
-        self.addSubview(board)
         return board
     }
 
@@ -85,6 +84,16 @@ class ChessView: UIView {
     private lazy var pawnFour: PieceView = self.createPiece(Piece.Pawn, player: Player.Red)
     private lazy var pawnFive: PieceView = self.createPiece(Piece.Pawn, player: Player.Red)
     
+    /** Todo: need to be lazy evaluated list, right now is just ugly. **/
+    public var pieceViews: [PieceView] {
+        return [rookPieceLeft, horsePieceLeft, bishopPieceLeft, guardPieceLeft, kingPiece, guardPieceRight,
+        bishopPieceRight, horsePieceRight, rookPieceRight, cannonPieceLeft, cannonPieceRight, soldierOne,
+        soldierTwo, soldierThree, soldierFour, soldierFive,
+        charlotPieceLeft, knightPieceLeft, elephantPieceLeft, advisorPieceLeft, generalPiece, advisorPieceRight,
+        elephantPieceRight, knightPieceRight, charlotPieceRight, ordnancePieceLeft, ordnancePieceRight, pawnOne,
+        pawnTwo, pawnThree, pawnFour, pawnFive]
+    }
+    
     private func createPiece(_ piece: Piece, player: Player) -> PieceView {
         let _name: String
         let _color: UIColor
@@ -109,7 +118,6 @@ class ChessView: UIView {
         }
         
         piece.setChessColor(color: _color)
-        self.addSubview(piece)
         return piece
     }
     
