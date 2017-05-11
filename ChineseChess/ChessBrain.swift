@@ -14,6 +14,11 @@ class ChessBrain {
     
     func setPiece(piece: PieceView) {
         if let firstSelection = pending {
+            // Do nothing if the second piece selection equals the first piece
+            if(firstSelection == piece) {
+                return
+            }
+            
             eatPiece(attacker: firstSelection, food: piece)
         } else {
             pending = piece
