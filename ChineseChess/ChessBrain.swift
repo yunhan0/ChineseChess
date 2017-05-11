@@ -15,8 +15,12 @@ class ChessBrain {
     
     func setPiece(piece: PieceView) {
         if let firstSelection = pending {
-            // Do nothing if the second piece selection equals the first piece
-            if(firstSelection == piece) {
+            /* Do nothing if the second piece selection equals the first piece
+             * or they belong to the same player
+             */
+            if(firstSelection == piece || firstSelection.player == piece.player) {
+                firstSelection.removeBorder()
+                pending = nil
                 return
             }
             performMovement(coordinate: piece.center, piece.row, piece.column)
@@ -35,6 +39,10 @@ class ChessBrain {
         if let piece = pending {
             switch piece.pieceType {
             case .Rook:
+                if (piece.row == row || piece.column == column) {
+                    isAbleToMove = true
+                }
+            case .Cannon:
                 if (piece.row == row || piece.column == column) {
                     isAbleToMove = true
                 }
@@ -58,8 +66,15 @@ class ChessBrain {
                 if (abs(piece.row - row) == 2 && abs(piece.column - column) == 2) {
                     isAbleToMove = true
                 }
-            default: piece.center = coordinate
-            
+            case .Guard:
+                if (abs(piece.row - row) == 1 && abs(piece.column - column) == 1) {
+                    isAbleToMove = true
+                }
+            case .King, .General:
+                let manhattanDistance = abs(piece.row - row) + abs(piece.column - column)
+                if (manhattanDistance == 1) {
+                    isAbleToMove = true
+                }
             }
             
             if (isAbleToMove) {
