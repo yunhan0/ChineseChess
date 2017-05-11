@@ -9,19 +9,46 @@
 import UIKit
 
 class PieceView: UIButton {
+    public var player: Player?
+    public var pieceType: Piece?
+    
     var _textColor: UIColor = UIColor.white
     
-    init(_ name: String) {
+    init(_ player: Player,_ piece: Piece) {
         super.init(frame: CGRect.zero)
-        self.setup(name)
+        self.setup(player, piece)
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func setup(_ name: String) {
+    func setup(_ player: Player, _ piece: Piece) {
+        self.player = player
+        self.pieceType = piece
+        
+        let name: String, color: UIColor
+        
+        switch piece {
+        case .King: name = "将"
+        case .Bishop: name = "象"
+        case .Horse: name = "马"
+        case .Guard: name = "士"
+        case .Rook: name = "車"
+        case .Cannon: name = "炮"
+        case .Soldier: name = "兵"
+        case .General: name = "帅"
+        case .Pawn: name = "卒"
+        }
+        
         self.setTitle(name, for: .normal)
+        
+        switch player {
+        case .Black: color = .black; transform = transform.rotated(by: CGFloat.pi)
+        case .Red: color = .red
+        }
+        
+        self.backgroundColor = color
         self.setTitleColor(_textColor, for: .normal)
         self.layer.masksToBounds = true
         self.layer.display()
@@ -30,9 +57,4 @@ class PieceView: UIButton {
     func setRadius(radius: CGFloat) {
         self.layer.cornerRadius = radius
     }
-    
-    func setChessColor(color: UIColor) {
-        self.backgroundColor = color
-    }
-
 }

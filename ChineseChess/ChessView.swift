@@ -95,29 +95,7 @@ class ChessView: UIView {
     }
     
     private func createPiece(_ piece: Piece, player: Player) -> PieceView {
-        let _name: String
-        let _color: UIColor
-  
-        switch piece {
-        case .King: _name = "将"
-        case .Bishop: _name = "象"
-        case .Horse: _name = "马"
-        case .Guard: _name = "士"
-        case .Rook: _name = "車"
-        case .Cannon: _name = "炮"
-        case .Soldier: _name = "兵"
-        case .General: _name = "帅"
-        case .Pawn: _name = "卒"
-        }
-        
-        let piece = PieceView(_name)
-        
-        switch player {
-        case .Black: _color = .black; piece.transform = piece.transform.rotated(by: CGFloat.pi)
-        case .Red: _color = .red
-        }
-        
-        piece.setChessColor(color: _color)
+        let piece = PieceView(player, piece)
         return piece
     }
     

@@ -11,14 +11,34 @@ import UIKit
 class ChessViewController: UIViewController {
 
     @IBOutlet weak var chessView: ChessView!
+    private var boardView: BoardView {
+        return chessView.board
+    }
+    
+    private var boardCoordinates: [[CGPoint]] {
+        return boardView.boardCoordinates
+    }
+    
+    private var gridWidth: CGFloat {
+        return boardView.gridWidth
+    
+    }
+    
+    private var boardOrigin: CGPoint {
+        return boardCoordinates[0][0]
+    }
+    
+    private var boardTermination: CGPoint {
+        return boardCoordinates[9][8]
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         let tap = UITapGestureRecognizer(target: self, action: #selector(getCoordinates))
         tap.numberOfTapsRequired = 1
-        chessView.board.addGestureRecognizer(tap)
-        chessView.addSubview(chessView.board)
+        boardView.addGestureRecognizer(tap)
+        chessView.addSubview(boardView)
         
         for piece in chessView.pieceViews {
             piece.addTarget(self,action: #selector(performOperation(sender:)), for: .touchUpInside)
@@ -33,16 +53,23 @@ class ChessViewController: UIViewController {
 
     private var brain = ChessBrain()
     
-    func performOperation(sender:UIButton!) {
-        if let label = sender.currentTitle {
-            print(label)
-        }
+    func performOperation(sender: PieceView!) {
+        brain.setPiece(piece: sender)
     }
     
     func getCoordinates(recognizer: UITapGestureRecognizer) {
-        let position = recognizer.location(in: chessView.board)
+        let position = recognizer.location(in: boardView),
+            x = round(position.x),
+            y = round(position.y)
         
-        print(round(position.x), round(position.y))
+        if( x < boardOrigin.x || x > boardTermination.x || y < boardOrigin.y || y > boardTermination.y) {
+            return
+        }
+
+        let row = Int(round((x - boardOrigin.x) / gridWidth)),
+            col = Int(round((y - boardOrigin.y) / gridWidth))
+
+        brain.performMovement(coordinate: boardCoordinates[col][row])
     }
 }
 
