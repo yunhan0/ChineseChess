@@ -57,4 +57,13 @@ class PieceView: UIButton {
     func setRadius(radius: CGFloat) {
         self.layer.cornerRadius = radius
     }
+    
+    func setBorder(width: CGFloat, color: CGColor) {
+        self.layer.borderWidth = width
+        self.layer.borderColor = color
+    }
+    
+    func removeBorder() {
+        self.layer.borderWidth = 0.0
+    }
 }

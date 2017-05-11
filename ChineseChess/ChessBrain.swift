@@ -21,6 +21,7 @@ class ChessBrain {
             
             eatPiece(attacker: firstSelection, food: piece)
         } else {
+            piece.setBorder(width: 2.0, color: UIColor.white.cgColor)
             pending = piece
         }
     }
@@ -28,13 +29,16 @@ class ChessBrain {
     func performMovement(coordinate: CGPoint) {
         if let piece = pending {
             piece.center = coordinate
+            piece.removeBorder()
             pending = nil
         }
     }
     
     func eatPiece(attacker: PieceView, food: PieceView) {
         attacker.center = food.center
+        attacker.removeBorder()
         food.isHidden = true
         pending = nil
     }
+    
 }
