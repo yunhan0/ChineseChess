@@ -12,19 +12,16 @@ class BoardView: UIView {
     var lineWidth: CGFloat = 2 { didSet { setNeedsDisplay() } }
     var color: UIColor = UIColor.black { didSet { setNeedsDisplay() } }
 
-    // Chinese Chess board has 9 rows and 8 columns
-    let rows: CGFloat = 9, columns: CGFloat = 8
-
     private var boardHeight: CGFloat {
         return min(bounds.size.width, bounds.size.height)
     }
     
     public var gridWidth: CGFloat {
-        return boardHeight / rows
+        return boardHeight / Rules.BoardRows
     }
     
     private var boardWidth: CGFloat {
-        return gridWidth * columns
+        return gridWidth * Rules.BoardColumns
     }
     
     private var boardCenter: CGPoint {

@@ -9,13 +9,20 @@
 import UIKit
 
 class PieceView: UIButton {
-    public var player: Player?
-    public var pieceType: Piece?
+    public var player: Player
+    public var pieceType: Piece
+    public var row: Int
+    public var column: Int
     
     var _textColor: UIColor = UIColor.white
     
-    init(_ player: Player,_ piece: Piece) {
+    init(_ player: Player,_ piece: Piece, row: Int, column: Int) {
+        self.player = player
+        self.pieceType = piece
+        self.row = row
+        self.column = column
         super.init(frame: CGRect.zero)
+       
         self.setup(player, piece)
     }
     
@@ -24,9 +31,6 @@ class PieceView: UIButton {
     }
 
     func setup(_ player: Player, _ piece: Piece) {
-        self.player = player
-        self.pieceType = piece
-        
         let name: String, color: UIColor
         
         switch piece {

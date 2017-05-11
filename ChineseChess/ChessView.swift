@@ -8,23 +8,6 @@
 
 import UIKit
 
-enum Player {
-    case Black
-    case Red
-}
-
-enum Piece {
-    case King
-    case Guard
-    case Bishop
-    case Horse
-    case Rook
-    case Cannon
-    case Soldier
-    case General
-    case Pawn
-}
-
 @IBDesignable
 class ChessView: UIView {
     
@@ -49,54 +32,30 @@ class ChessView: UIView {
     }
     
     // Player: Black
-    private lazy var rookPieceLeft: PieceView = self.createPiece(Piece.Rook, player: Player.Black)
-    private lazy var horsePieceLeft: PieceView = self.createPiece(Piece.Horse, player: Player.Black)
-    private lazy var bishopPieceLeft: PieceView = self.createPiece(Piece.Bishop, player: Player.Black)
-    private lazy var guardPieceLeft: PieceView = self.createPiece(Piece.Guard, player: Player.Black)
-    private lazy var kingPiece: PieceView = self.createPiece(Piece.King, player: Player.Black)
-    private lazy var guardPieceRight: PieceView = self.createPiece(Piece.Guard, player: Player.Black)
-    private lazy var bishopPieceRight: PieceView = self.createPiece(Piece.Bishop, player: Player.Black)
-    private lazy var horsePieceRight: PieceView = self.createPiece(Piece.Horse, player: Player.Black)
-    private lazy var rookPieceRight: PieceView = self.createPiece(Piece.Rook, player: Player.Black)
-    private lazy var cannonPieceLeft: PieceView = self.createPiece(Piece.Cannon, player: Player.Black)
-    private lazy var cannonPieceRight: PieceView = self.createPiece(Piece.Cannon, player: Player.Black)
-    private lazy var soldierOne: PieceView = self.createPiece(Piece.Soldier, player: Player.Black)
-    private lazy var soldierTwo: PieceView = self.createPiece(Piece.Soldier, player: Player.Black)
-    private lazy var soldierThree: PieceView = self.createPiece(Piece.Soldier, player: Player.Black)
-    private lazy var soldierFour: PieceView = self.createPiece(Piece.Soldier, player: Player.Black)
-    private lazy var soldierFive: PieceView = self.createPiece(Piece.Soldier, player: Player.Black)
+    private lazy var blackPieces : [PieceView] = self.createPieces(.Black)
+    private lazy var redPieces : [PieceView] = self.createPieces(.Red)
     
-    // Player: Red
-    private lazy var charlotPieceLeft: PieceView = self.createPiece(Piece.Rook, player: Player.Red)
-    private lazy var knightPieceLeft: PieceView = self.createPiece(Piece.Horse, player: Player.Red)
-    private lazy var elephantPieceLeft: PieceView = self.createPiece(Piece.Bishop, player: Player.Red)
-    private lazy var advisorPieceLeft: PieceView = self.createPiece(Piece.Guard, player: Player.Red)
-    private lazy var generalPiece: PieceView = self.createPiece(Piece.General, player: Player.Red)
-    private lazy var advisorPieceRight: PieceView = self.createPiece(Piece.Guard, player: Player.Red)
-    private lazy var elephantPieceRight: PieceView = self.createPiece(Piece.Bishop, player: Player.Red)
-    private lazy var knightPieceRight: PieceView = self.createPiece(Piece.Horse, player: Player.Red)
-    private lazy var charlotPieceRight: PieceView = self.createPiece(Piece.Rook, player: Player.Red)
-    private lazy var ordnancePieceLeft: PieceView = self.createPiece(Piece.Cannon, player: Player.Red)
-    private lazy var ordnancePieceRight: PieceView = self.createPiece(Piece.Cannon, player: Player.Red)
-    private lazy var pawnOne: PieceView = self.createPiece(Piece.Pawn, player: Player.Red)
-    private lazy var pawnTwo: PieceView = self.createPiece(Piece.Pawn, player: Player.Red)
-    private lazy var pawnThree: PieceView = self.createPiece(Piece.Pawn, player: Player.Red)
-    private lazy var pawnFour: PieceView = self.createPiece(Piece.Pawn, player: Player.Red)
-    private lazy var pawnFive: PieceView = self.createPiece(Piece.Pawn, player: Player.Red)
+    private func createPieces(_ player: Player) -> [PieceView] {
+        var ret: [PieceView] = []
+        switch player {
+            case .Black:
+                for p in Rules.BlackPlayerPieces {
+                    let piece = PieceView(player, p.piece, row: p.row, column: p.column)
+                    ret.append(piece)
+                }
+            case .Red:
+                for p in Rules.RedPlayerPieces {
+                    let piece = PieceView(player, p.piece, row: p.row, column: p.column)
+                    ret.append(piece)
+                }
+        }
+
+        return ret
+    }
     
     /** Todo: need to be lazy evaluated list, right now is just ugly. **/
     public var pieceViews: [PieceView] {
-        return [rookPieceLeft, horsePieceLeft, bishopPieceLeft, guardPieceLeft, kingPiece, guardPieceRight,
-        bishopPieceRight, horsePieceRight, rookPieceRight, cannonPieceLeft, cannonPieceRight, soldierOne,
-        soldierTwo, soldierThree, soldierFour, soldierFive,
-        charlotPieceLeft, knightPieceLeft, elephantPieceLeft, advisorPieceLeft, generalPiece, advisorPieceRight,
-        elephantPieceRight, knightPieceRight, charlotPieceRight, ordnancePieceLeft, ordnancePieceRight, pawnOne,
-        pawnTwo, pawnThree, pawnFour, pawnFive]
-    }
-    
-    private func createPiece(_ piece: Piece, player: Player) -> PieceView {
-        let piece = PieceView(player, piece)
-        return piece
+        return blackPieces + redPieces
     }
     
     private func positionPiece(piece: PieceView, center: CGPoint) {
@@ -113,43 +72,12 @@ class ChessView: UIView {
         
         let m = board.boardCoordinates
         
-        // Player: Black
-        positionPiece(piece: rookPieceLeft, center: m[0][0])
-        positionPiece(piece: horsePieceLeft, center: m[0][1])
-        positionPiece(piece: bishopPieceLeft, center: m[0][2])
-        positionPiece(piece: guardPieceLeft, center: m[0][3])
-        positionPiece(piece: kingPiece, center: m[0][4])
-        positionPiece(piece: guardPieceRight, center: m[0][5])
-        positionPiece(piece: bishopPieceRight, center: m[0][6])
-        positionPiece(piece: horsePieceRight, center: m[0][7])
-        positionPiece(piece: rookPieceRight, center: m[0][8])
-        positionPiece(piece: cannonPieceLeft, center: m[2][1])
-        positionPiece(piece: cannonPieceRight, center: m[2][7])
+        for p in blackPieces {
+            positionPiece(piece: p, center: m[p.row][p.column])
+        }
         
-        positionPiece(piece: soldierOne, center: m[3][0])
-        positionPiece(piece: soldierTwo, center: m[3][2])
-        positionPiece(piece: soldierThree, center: m[3][4])
-        positionPiece(piece: soldierFour, center: m[3][6])
-        positionPiece(piece: soldierFive, center: m[3][8])
-        
-        // Player: Red
-        positionPiece(piece: charlotPieceLeft, center: m[9][0])
-        positionPiece(piece: knightPieceLeft, center: m[9][1])
-        positionPiece(piece: elephantPieceLeft, center: m[9][2])
-        positionPiece(piece: advisorPieceLeft, center: m[9][3])
-        positionPiece(piece: generalPiece, center: m[9][4])
-        positionPiece(piece: advisorPieceRight, center: m[9][5])
-        positionPiece(piece: elephantPieceRight, center: m[9][6])
-        positionPiece(piece: knightPieceRight, center: m[9][7])
-        positionPiece(piece: charlotPieceRight, center: m[9][8])
-        positionPiece(piece: ordnancePieceLeft, center: m[2][1])
-        positionPiece(piece: ordnancePieceLeft, center: m[7][1])
-        positionPiece(piece: ordnancePieceRight, center: m[7][7])
-        
-        positionPiece(piece: pawnOne, center: m[6][0])
-        positionPiece(piece: pawnTwo, center: m[6][2])
-        positionPiece(piece: pawnThree, center: m[6][4])
-        positionPiece(piece: pawnFour, center: m[6][6])
-        positionPiece(piece: pawnFive, center: m[6][8])
+        for p in redPieces {
+            positionPiece(piece: p, center: m[p.row][p.column])
+        }
     }
 }
