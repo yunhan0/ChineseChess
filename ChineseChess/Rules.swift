@@ -54,6 +54,6 @@ class Rules {
         (.Pawn, 6, 2), (.Pawn, 6, 4), (.Pawn, 6, 6), (.Pawn, 6, 8)
     ]
     
-//    static let KingPalaceBorders: (left: Int, right: Int, top: Int, bottom: Int) = (3, 5, 0, 2)
-//    static let GeneralPalaceBorders: (left: Int, right: Int, top: Int, bottom: Int) = (3, 5, 7, 9)
+    // As tradition, red player will be the first one to move the piece
+    static let FirstPlayer: Player = .Red
 }

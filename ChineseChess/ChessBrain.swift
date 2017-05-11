@@ -12,6 +12,7 @@ import UIKit
 class ChessBrain {
     private var pending: PieceView?
     private var isAbleToMove: Bool = false
+    private var currentPlayer = Rules.FirstPlayer
     
     func setPiece(piece: PieceView) {
         if let firstSelection = pending {
@@ -27,10 +28,13 @@ class ChessBrain {
             
             if (isAbleToMove) {
                 eatPiece(food: piece)
+                currentPlayer = turnPlayer(player: currentPlayer)
             }
         } else {
-            piece.setBorder(width: 2.0, color: UIColor.white.cgColor)
-            pending = piece
+            if(piece.player == currentPlayer) {
+                piece.setBorder(width: 2.0, color: UIColor.white.cgColor)
+                pending = piece
+            }
         }
     }
     
@@ -80,6 +84,7 @@ class ChessBrain {
             if (isAbleToMove) {
                 piece.center = coordinate
                 piece.setLocation(row: row, col: column)
+                currentPlayer = turnPlayer(player: currentPlayer)
             }
             
             piece.removeBorder()
@@ -89,6 +94,15 @@ class ChessBrain {
     
     func eatPiece(food: PieceView) {
         food.isHidden = true
+    }
+    
+    func turnPlayer(player: Player) -> Player {
+        let ret: Player
+        switch player {
+        case .Red: ret = .Black
+        case .Black: ret = .Red
+        }
+        return ret
     }
     
 }
