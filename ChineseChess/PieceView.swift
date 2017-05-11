@@ -70,4 +70,9 @@ class PieceView: UIButton {
     func removeBorder() {
         self.layer.borderWidth = 0.0
     }
+    
+    func setLocation(row: Int, col: Int) {
+        self.row = row
+        self.column = col
+    }
 }

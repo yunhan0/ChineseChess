@@ -11,6 +11,7 @@ import UIKit
 
 class ChessBrain {
     private var pending: PieceView?
+    private var isAbleToMove: Bool = false
     
     func setPiece(piece: PieceView) {
         if let firstSelection = pending {
@@ -18,27 +19,61 @@ class ChessBrain {
             if(firstSelection == piece) {
                 return
             }
+            performMovement(coordinate: piece.center, piece.row, piece.column)
             
-            eatPiece(attacker: firstSelection, food: piece)
+            if (isAbleToMove) {
+                eatPiece(food: piece)
+            }
         } else {
             piece.setBorder(width: 2.0, color: UIColor.white.cgColor)
             pending = piece
         }
     }
     
-    func performMovement(coordinate: CGPoint) {
+    func performMovement(coordinate: CGPoint, _ row: Int, _ column: Int) {
+        isAbleToMove = false
         if let piece = pending {
-            piece.center = coordinate
+            switch piece.pieceType {
+            case .Rook:
+                if (piece.row == row || piece.column == column) {
+                    isAbleToMove = true
+                }
+            case .Soldier:
+                let manhattanDistance = abs(piece.row - row) + abs(piece.column - column)
+                if (manhattanDistance == 1 && piece.row + 1 == row) {
+                    isAbleToMove = true
+                }
+            case .Pawn:
+                let manhattanDistance = abs(piece.row - row) + abs(piece.column - column)
+                if (manhattanDistance == 1 && piece.row - 1 == row) {
+                    isAbleToMove = true
+                }
+            case .Horse:
+                // if the manhattan distance to target column and row is 3, it makes a "日" shape
+                let manhattanDistance = abs(piece.row - row) + abs(piece.column - column)
+                if (manhattanDistance == 3) {
+                    isAbleToMove = true
+                }
+            case .Bishop:
+                if (abs(piece.row - row) == 2 && abs(piece.column - column) == 2) {
+                    isAbleToMove = true
+                }
+            default: piece.center = coordinate
+            
+            }
+            
+            if (isAbleToMove) {
+                piece.center = coordinate
+                piece.setLocation(row: row, col: column)
+            }
+            
             piece.removeBorder()
             pending = nil
         }
     }
     
-    func eatPiece(attacker: PieceView, food: PieceView) {
-        attacker.center = food.center
-        attacker.removeBorder()
+    func eatPiece(food: PieceView) {
         food.isHidden = true
-        pending = nil
     }
     
 }

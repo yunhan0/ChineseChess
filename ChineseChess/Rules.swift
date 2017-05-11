@@ -53,4 +53,7 @@ class Rules {
         (.Rook, 9, 8), (.Cannon, 7, 1), (.Cannon, 7, 7), (.Pawn, 6, 0),
         (.Pawn, 6, 2), (.Pawn, 6, 4), (.Pawn, 6, 6), (.Pawn, 6, 8)
     ]
+    
+    static let KingPalaceBorders: (left: Int, right: Int, top: Int, bottom: Int) = (3, 5, 0, 2)
+    static let GeneralPalaceBorders: (left: Int, right: Int, top: Int, bottom: Int) = (3, 5, 7, 9)
 }

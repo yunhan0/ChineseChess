@@ -66,10 +66,10 @@ class ChessViewController: UIViewController {
             return
         }
 
-        let row = Int(round((x - boardOrigin.x) / gridWidth)),
-            col = Int(round((y - boardOrigin.y) / gridWidth))
+        let col = Int(round((x - boardOrigin.x) / gridWidth)),
+            row = Int(round((y - boardOrigin.y) / gridWidth))
 
-        brain.performMovement(coordinate: boardCoordinates[col][row])
+        brain.performMovement(coordinate: boardCoordinates[row][col], row, col)
     }
 }
 

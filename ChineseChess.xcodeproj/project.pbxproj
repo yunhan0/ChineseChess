@@ -65,12 +65,12 @@
 			isa = PBXGroup;
 			children = (
 				B5559A691EAF5A400089BF2F /* SupportingFiles */,
+				B50A82771EC472AD001674B9 /* Rules.swift */,
 				B5559A591EAF5A210089BF2F /* ChessViewController.swift */,
 				B50A826F1EC32BD8001674B9 /* ChessBrain.swift */,
 				B5559A6A1EAF629F0089BF2F /* ChessView.swift */,
-				B5BE4E541EB4BAC600510454 /* PieceView.swift */,
-				B50A82771EC472AD001674B9 /* Rules.swift */,
 				B5F1C1131EB8C57F00CEBC8F /* BoardView.swift */,
+				B5BE4E541EB4BAC600510454 /* PieceView.swift */,
 				B5559A5B1EAF5A210089BF2F /* Main.storyboard */,
 			);
 			path = ChineseChess;
