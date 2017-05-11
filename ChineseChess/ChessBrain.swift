@@ -10,26 +10,26 @@ import Foundation
 import UIKit
 
 class ChessBrain {
-    private var currentPiece: PieceView?
+    private var pending: PieceView?
     
     func setPiece(piece: PieceView) {
-        currentPiece = piece
-    }
-    
-/*
-    struct PendingOperationInfo {
-        var firstSelection: PieceView
-        var destination: CGPoint
-    }
-
-    private var pending: PendingOperationInfo?
-    */
-    func performMovement(coordinate: CGPoint) {
-        if let piece = currentPiece {
-            piece.center = coordinate
-            currentPiece = nil
+        if let firstSelection = pending {
+            eatPiece(attacker: firstSelection, food: piece)
+        } else {
+            pending = piece
         }
-        
     }
     
+    func performMovement(coordinate: CGPoint) {
+        if let piece = pending {
+            piece.center = coordinate
+            pending = nil
+        }
+    }
+    
+    func eatPiece(attacker: PieceView, food: PieceView) {
+        attacker.center = food.center
+        food.isHidden = true
+        pending = nil
+    }
 }

@@ -62,7 +62,7 @@ class ChessViewController: UIViewController {
             x = round(position.x),
             y = round(position.y)
         
-        if( x < boardOrigin.x || x > boardTermination.x || y < boardOrigin.y || y > boardTermination.y) {
+        if(y < boardOrigin.y || y > boardTermination.y) {
             return
         }
 
