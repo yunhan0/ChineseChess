@@ -29,7 +29,6 @@ class ChessBrain {
             
             if (isAbleToMove) {
                 eatPiece(food: piece)
-                currentPlayer = turnPlayer(player: currentPlayer)
             }
         } else {
             if(piece.player == currentPlayer) {
