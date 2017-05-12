@@ -13,6 +13,7 @@ class ChessBrain {
     private var pending: PieceView?
     private var isAbleToMove: Bool = false
     private var currentPlayer = Rules.FirstPlayer
+    private var gameStates = Rules.GameStates
     
     func setPiece(piece: PieceView) {
         if let firstSelection = pending {
@@ -82,6 +83,9 @@ class ChessBrain {
             }
             
             if (isAbleToMove) {
+                gameStates[piece.row][piece.column] = piece.row < Rules.SideRows ? 0 : 1
+                gameStates[row][column] = piece.pieceType
+                
                 piece.center = coordinate
                 piece.setLocation(row: row, col: column)
                 currentPlayer = turnPlayer(player: currentPlayer)
@@ -104,5 +108,4 @@ class ChessBrain {
         }
         return ret
     }
-    
 }
