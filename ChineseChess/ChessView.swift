@@ -16,6 +16,7 @@ class ChessView: UIView {
     @IBInspectable
     var color: UIColor = UIColor.black { didSet { setNeedsDisplay(); board.color = color } }
     
+    // Board
     public lazy var board: BoardView = self.createBoard()
     
     private func createBoard() -> BoardView {
@@ -31,31 +32,32 @@ class ChessView: UIView {
         board.center = CGPoint(x: bounds.midX, y: bounds.midY)
     }
     
-    // Player: Black
-    private lazy var blackPieces : [PieceView] = self.createPieces(.Black)
-    private lazy var redPieces : [PieceView] = self.createPieces(.Red)
+    // Pieces
+    private lazy var pieces : [PieceView] = self.createPieces()
     
-    private func createPieces(_ player: Player) -> [PieceView] {
+    private func createPieces() -> [PieceView] {
         var ret: [PieceView] = []
-        switch player {
-            case .Black:
-                for p in Rules.BlackPlayerPieces {
-                    let piece = PieceView(player, p.piece, row: p.row, column: p.column)
-                    ret.append(piece)
-                }
-            case .Red:
-                for p in Rules.RedPlayerPieces {
-                    let piece = PieceView(player, p.piece, row: p.row, column: p.column)
-                    ret.append(piece)
-                }
-        }
+        let initialGameStates = Rules.GameStates
 
+        for i in 0...Int(Rules.BoardRows) {
+            for j in 0...Int(Rules.BoardColumns) {
+                
+                if !(initialGameStates[i][j] is Piece) {
+                    continue
+                }
+                
+                if i < Rules.SideRows { // Black pieces
+                    let piece = PieceView(.Black, initialGameStates[i][j] as! Piece, row: i, column: j)
+                    ret.append(piece)
+                } else { // Red pieces
+                    let piece = PieceView(.Red, initialGameStates[i][j] as! Piece, row: i, column: j)
+                    ret.append(piece)
+                }
+            
+            }
+        }
+        
         return ret
-    }
-    
-    /** Todo: need to be lazy evaluated list, right now is just ugly. **/
-    public var pieceViews: [PieceView] {
-        return blackPieces + redPieces
     }
     
     private func positionPiece(piece: PieceView, center: CGPoint) {
@@ -65,6 +67,10 @@ class ChessView: UIView {
         piece.setRadius(radius: size / 2)
     }
     
+    public var pieceViews: [PieceView] {
+        return pieces
+    }
+    
     override func layoutSubviews() {
         super.layoutSubviews()
      
@@ -72,11 +78,7 @@ class ChessView: UIView {
         
         let m = board.boardCoordinates
         
-        for p in blackPieces {
-            positionPiece(piece: p, center: m[p.row][p.column])
-        }
-        
-        for p in redPieces {
+        for p in pieces {
             positionPiece(piece: p, center: m[p.row][p.column])
         }
     }
