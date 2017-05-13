@@ -11,6 +11,11 @@ import UIKit
 class ChessViewController: UIViewController {
 
     @IBOutlet weak var chessView: ChessView!
+   
+    @IBAction func replay(_ sender: UIBarButtonItem) {
+        brain.replay()
+    }
+    
     private var boardView: BoardView {
         return chessView.board
     }
@@ -54,6 +59,20 @@ class ChessViewController: UIViewController {
     
     func performOperation(sender: PieceView!) {
         brain.setPiece(piece: sender)
+        
+        if let result = brain.winner {
+            let msg : String
+            switch result {
+            case .Black:
+                msg = "㊗️恭喜黑队大获全胜，大侠们请重新来过"
+            case .Red:
+                msg = "㊗️恭喜红队大获全胜，大侠们请重新来过"
+            }
+            let alert =
+                UIAlertController(title: "游戏结束", message: msg, preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "确认", style: UIAlertActionStyle.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        }
     }
     
     func getCoordinates(recognizer: UITapGestureRecognizer) {
@@ -71,4 +90,3 @@ class ChessViewController: UIViewController {
         brain.performMovement(coordinate: boardCoordinates[row][col], row, col)
     }
 }
-

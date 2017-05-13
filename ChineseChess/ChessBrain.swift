@@ -14,10 +14,10 @@ class ChessBrain {
     private var isAbleToMove = false
     private var currentPlayer = Rules.FirstPlayer
     private var gameStates = Rules.GameStates
-    private var gameTerminated = false
+    public var winner : Player? = nil
     
     func setPiece(piece: PieceView) {
-        if (gameTerminated) { return }
+        if (winner != nil) { return }
         
         if let firstSelection = pending {
             /* Do nothing if the second piece selection equals the first piece
@@ -50,10 +50,12 @@ class ChessBrain {
                 
                 if (piece.row == row) {
                     distance = abs(piece.column - column)
-                    obstacleNumbers = distance == 1 ? 0 : getObstacleNumbers(a: piece.column, b: column, rowStates: gameStates[row])
+                    obstacleNumbers = distance == 1 ?
+                        0 : getObstacleNumbers(a: piece.column, b: column, rowStates: gameStates[row])
                 } else if (piece.column == column) {
                     distance = abs(piece.row - row)
-                    obstacleNumbers = distance == 1 ? 0 : getObstacleNumbers(a: piece.row, b: row, columnNumber: column)
+                    obstacleNumbers = distance == 1 ?
+                        0 : getObstacleNumbers(a: piece.row, b: row, columnNumber: column)
                 } else {
                     break
                 }
@@ -64,10 +66,12 @@ class ChessBrain {
                 
                 if (piece.row == row) {
                     distance = abs(piece.column - column)
-                    obstacleNumbers = distance == 1 ? 0 : getObstacleNumbers(a: piece.column, b: column, rowStates: gameStates[row])
+                    obstacleNumbers = distance == 1 ?
+                        0 : getObstacleNumbers(a: piece.column, b: column, rowStates: gameStates[row])
                 } else if (piece.column == column) {
                     distance = abs(piece.row - row)
-                    obstacleNumbers = distance == 1 ? 0 : getObstacleNumbers(a: piece.row, b: row, columnNumber: column)
+                    obstacleNumbers = distance == 1 ?
+                        0 : getObstacleNumbers(a: piece.row, b: row, columnNumber: column)
                 } else {
                     break
                 }
@@ -108,8 +112,10 @@ class ChessBrain {
                 // if the manhattan distance to target column and row is 3, it makes a "日" shape
                 let manhattanDistance = abs(piece.row - row) + abs(piece.column - column)
                 if (manhattanDistance == 3) {
-                    let foo = piece.column < column ? (min: piece.column, max: column) : (min: column, max: piece.column)
-                    let boo = piece.row < row ? (min: piece.row, max: row) : (min: row, max: piece.row)
+                    let foo = piece.column < column ?
+                        (min: piece.column, max: column) : (min: column, max: piece.column)
+                    let boo = piece.row < row ?
+                        (min: piece.row, max: row) : (min: row, max: piece.row)
                     
                     if((foo.max - foo.min == 2) && !(gameStates[piece.row][foo.min+1] is Piece)) {
                         isAbleToMove = true
@@ -121,7 +127,14 @@ class ChessBrain {
                 }
             case .Bishop: // Todo
                 if (abs(piece.row - row) == 2 && abs(piece.column - column) == 2) {
-                    isAbleToMove = true
+                    // get the min column between column and destination column
+                    let foo = piece.column < column ? piece.column : column
+                    // get the min row between row and destination row
+                    let boo = piece.row < row ? piece.row : row
+                    
+                    if !(gameStates[boo+1][foo+1] is Piece) {
+                        isAbleToMove = true
+                    }
                 }
             case .Guard:
                 if (abs(piece.row - row) == 1 && abs(piece.column - column) == 1) {
@@ -161,8 +174,12 @@ class ChessBrain {
     
     func eatPiece(food: PieceView) {
         food.isHidden = true
-        if (food.pieceType == .King || food.pieceType == .General) {
-            gameTerminated = true
+        if (food.pieceType == .King) {
+            winner = .Red
+        }
+        
+        if (food.pieceType == .General) {
+            winner = .Black
         }
     }
     
@@ -208,5 +225,13 @@ class ChessBrain {
         }
         
         gameStates[destination.row][destination.column] = piece
+    }
+    
+    func replay() {
+        pending = nil
+        isAbleToMove = false
+        currentPlayer = Rules.FirstPlayer
+        gameStates = Rules.GameStates
+        winner = nil
     }
 }

@@ -34,7 +34,17 @@
                             <constraint firstItem="Kn5-WM-kl4" firstAttribute="bottom" secondItem="wfy-db-euE" secondAttribute="top" id="yxj-s4-f0U"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="中国象棋" id="tQJ-GN-Zn1"/>
+                    <navigationItem key="navigationItem" title="中国象棋" id="tQJ-GN-Zn1">
+                        <barButtonItem key="leftBarButtonItem" title="新局" id="jUx-Bs-Jfn">
+                            <color key="tintColor" red="0.96862745100000003" green="0.95294117649999999" blue="0.94117647059999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <connections>
+                                <action selector="replay:" destination="BYZ-38-t0r" id="6gb-Gb-vWJ"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="悔棋" id="nXo-8A-0i7">
+                            <color key="tintColor" red="0.96862745100000003" green="0.95294117649999999" blue="0.94117647059999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="chessView" destination="Kn5-WM-kl4" id="WYs-ed-XSQ"/>
                     </connections>
@@ -48,7 +58,8 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Ier-Xe-8cW" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Vab-lm-HpD">
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" barStyle="black" prompted="NO"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" id="Vab-lm-HpD">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
