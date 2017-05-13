@@ -11,11 +11,14 @@ import UIKit
 
 class ChessBrain {
     private var pending: PieceView?
-    private var isAbleToMove: Bool = false
+    private var isAbleToMove = false
     private var currentPlayer = Rules.FirstPlayer
     private var gameStates = Rules.GameStates
+    private var gameTerminated = false
     
     func setPiece(piece: PieceView) {
+        if (gameTerminated) { return }
+        
         if let firstSelection = pending {
             /* Do nothing if the second piece selection equals the first piece
              * or they belong to the same player
@@ -43,59 +46,61 @@ class ChessBrain {
         if let piece = pending {
             switch piece.pieceType {
             case .Rook:
+                let distance: Int, obstacleNumbers: Int
+                
                 if (piece.row == row) {
-                    let columnDistance = abs(piece.column - column)
-                    if(columnDistance == 1) {
-                        isAbleToMove = true
-                    }
-
-                    if(columnDistance > 1 &&
-                        getObstacleNumbers(a: piece.column, b: column, rowStates: gameStates[row]) == 0) {
-                        isAbleToMove = true
-                    }
+                    distance = abs(piece.column - column)
+                    obstacleNumbers = distance == 1 ? 0 : getObstacleNumbers(a: piece.column, b: column, rowStates: gameStates[row])
+                } else if (piece.column == column) {
+                    distance = abs(piece.row - row)
+                    obstacleNumbers = distance == 1 ? 0 : getObstacleNumbers(a: piece.row, b: row, columnNumber: column)
+                } else {
+                    break
                 }
                 
-                if (piece.column == column) {
-                    let rowDistance = abs(piece.row - row)
-                    if (rowDistance == 1) {
-                        isAbleToMove = true
-                    }
-
-                    if (rowDistance > 1 && getObstacleNumbers(a: piece.row, b: row, columnNumber: column) == 0) {
-                        isAbleToMove = true
-                    }
-                }
+                if (obstacleNumbers == 0) { isAbleToMove = true }
             case .Cannon:
-                if (piece.row == row || piece.column == column) {
-                    isAbleToMove = true
+                let distance: Int, obstacleNumbers: Int
+                
+                if (piece.row == row) {
+                    distance = abs(piece.column - column)
+                    obstacleNumbers = distance == 1 ? 0 : getObstacleNumbers(a: piece.column, b: column, rowStates: gameStates[row])
+                } else if (piece.column == column) {
+                    distance = abs(piece.row - row)
+                    obstacleNumbers = distance == 1 ? 0 : getObstacleNumbers(a: piece.row, b: row, columnNumber: column)
+                } else {
+                    break
+                }
+
+                if (gameStates[row][column] is Piece) {
+                    if (obstacleNumbers == 1) { isAbleToMove = true }
+                } else {
+                    if (obstacleNumbers == 0) { isAbleToMove = true }
                 }
             case .Soldier:
                 let manhattanDistance = abs(piece.row - row) + abs(piece.column - column)
                 if (manhattanDistance == 1) {
-                    let nextState = gameStates[row][column]
-                    
-                    // If soldier is in its own territory, it can only move forward
-                    if(Utility.isEqual(type: Int.self, a: nextState, b: 0) == true && piece.row + 1 == row) {
+                    // Soldier is in its own territory, it can only move forward
+                    if (piece.row < Rules.SideRows && piece.row + 1 == row) {
                         isAbleToMove = true
                         break
                     }
                     
-                    // If soldier is in the other side, it can move forward, left, and right
-                    if(Utility.isEqual(type: Int.self, a: nextState, b: 1) == true) {
+                    // Soldier is in the other side, it can move forward, left, and right but never go back
+                    if (piece.row >= Rules.SideRows && row >= piece.row){
                         isAbleToMove = true
                     }
                 }
             case .Pawn:
                 let manhattanDistance = abs(piece.row - row) + abs(piece.column - column)
                 if (manhattanDistance == 1) {
-                    let nextState = gameStates[row][column]
-                    
-                    if(Utility.isEqual(type: Int.self, a: nextState, b: 1) == true && piece.row - 1 == row) {
+                    if (piece.row >= Rules.SideRows && piece.row - 1 == row) {
                         isAbleToMove = true
                         break
                     }
                     
-                    if(Utility.isEqual(type: Int.self, a: nextState, b: 0) == true) {
+                    // Pawn is in the other side and it can never go back
+                    if (piece.row < Rules.SideRows && row <= piece.row) {
                         isAbleToMove = true
                     }
                 }
@@ -103,9 +108,18 @@ class ChessBrain {
                 // if the manhattan distance to target column and row is 3, it makes a "日" shape
                 let manhattanDistance = abs(piece.row - row) + abs(piece.column - column)
                 if (manhattanDistance == 3) {
-                    isAbleToMove = true
+                    let foo = piece.column < column ? (min: piece.column, max: column) : (min: column, max: piece.column)
+                    let boo = piece.row < row ? (min: piece.row, max: row) : (min: row, max: piece.row)
+                    
+                    if((foo.max - foo.min == 2) && !(gameStates[piece.row][foo.min+1] is Piece)) {
+                        isAbleToMove = true
+                    }
+                    
+                    if ((boo.max - boo.min == 2) && !(gameStates[boo.min+1][piece.column] is Piece)) {
+                        isAbleToMove = true
+                    }
                 }
-            case .Bishop:
+            case .Bishop: // Todo
                 if (abs(piece.row - row) == 2 && abs(piece.column - column) == 2) {
                     isAbleToMove = true
                 }
@@ -147,6 +161,9 @@ class ChessBrain {
     
     func eatPiece(food: PieceView) {
         food.isHidden = true
+        if (food.pieceType == .King || food.pieceType == .General) {
+            gameTerminated = true
+        }
     }
     
     func turnPlayer(player: Player) -> Player {
@@ -189,6 +206,7 @@ class ChessBrain {
         } else {
             gameStates[origin.row][origin.column] = origin.row < Rules.SideRows ? 0 : 1
         }
+        
         gameStates[destination.row][destination.column] = piece
     }
 }

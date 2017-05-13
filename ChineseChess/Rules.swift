@@ -45,7 +45,6 @@ class Rules {
         return initBlackPieces()
     }
     
-    
     static var RedPieces : [[Any]] {
         return initRedPieces()
     }
