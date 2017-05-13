@@ -21,7 +21,6 @@ class ChessViewController: UIViewController {
     
     private var gridWidth: CGFloat {
         return boardView.gridWidth
-    
     }
     
     private var boardOrigin: CGPoint {

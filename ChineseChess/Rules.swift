@@ -60,11 +60,19 @@ class Rules {
      2 cannons and 5 pawns (or soldiers).
      */
     static func initBlackPieces() -> [[Any]] {
+        // Mark black player territory as 0
         var states = [[Any]](
             repeating: [Any](repeating: 0, count: Int(Rules.BoardColumns) + 1),
             count: SideRows
         )
-
+        
+        // Mark King and Guard's territory as 2
+        for i in 0...2 {
+            for j in 3...5 {
+                states[i][j] = 2
+            }
+        }
+        
         states[0][0] = Piece.Rook
         states[0][1] = Piece.Horse
         states[0][2] = Piece.Bishop
@@ -86,10 +94,18 @@ class Rules {
     }
     
     static func initRedPieces() -> [[Any]] {
+        // Mark red player territory as 1
         var states = [[Any]](
             repeating: [Any](repeating: 1, count: Int(Rules.BoardColumns) + 1),
             count: SideRows
         )
+        
+        // Mark General and Guard's territory as 2
+        for i in 2...4 {
+            for j in 3...5 {
+                states[i][j] = 2
+            }
+        }
         
         states[1][0] = Piece.Pawn
         states[1][2] = Piece.Pawn
