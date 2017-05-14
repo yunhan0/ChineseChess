@@ -13,6 +13,21 @@ class ChessViewController: UIViewController {
     @IBOutlet weak var chessView: ChessView!
    
     @IBAction func replay(_ sender: UIBarButtonItem) {
+        let initialGameStates = Rules.GameStates
+        let pieces = chessView.pieceViews
+        var idx = 0
+        
+        for i in 0...Int(Rules.BoardRows) {
+            for j in 0...Int(Rules.BoardColumns) {
+                if (initialGameStates[i][j] is Piece) {
+                    pieces[idx].setLocation(row: i, col: j)
+                    pieces[idx].center = boardCoordinates[i][j]
+                    pieces[idx].isHidden = false
+                    idx += 1
+                }
+            }
+        }
+        
         brain.replay()
     }
     

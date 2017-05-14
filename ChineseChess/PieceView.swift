@@ -40,9 +40,9 @@ class PieceView: UIButton {
         case .Guard: name = "士"
         case .Rook: name = "車"
         case .Cannon: name = "炮"
-        case .Soldier: name = "兵"
+        case .Soldier: name = "卒"
         case .General: name = "帅"
-        case .Pawn: name = "卒"
+        case .Pawn: name = "兵"
         }
         
         self.setTitle(name, for: .normal)

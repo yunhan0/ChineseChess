@@ -125,7 +125,7 @@ class ChessBrain {
                         isAbleToMove = true
                     }
                 }
-            case .Bishop: // Todo
+            case .Bishop:
                 if (abs(piece.row - row) == 2 && abs(piece.column - column) == 2) {
                     // get the min column between column and destination column
                     let foo = piece.column < column ? piece.column : column
@@ -136,7 +136,7 @@ class ChessBrain {
                         isAbleToMove = true
                     }
                 }
-            case .Guard:
+            case .Guard: // Todo
                 if (abs(piece.row - row) == 1 && abs(piece.column - column) == 1) {
                     let nextState = gameStates[row][column]
                     
@@ -145,7 +145,7 @@ class ChessBrain {
                         isAbleToMove = true
                     }
                 }
-            case .King, .General:
+            case .King, .General: // Todo
                 let manhattanDistance = abs(piece.row - row) + abs(piece.column - column)
                 if (manhattanDistance == 1) {
                     let nextState = gameStates[row][column]
