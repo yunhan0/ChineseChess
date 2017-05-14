@@ -9,7 +9,7 @@
 import UIKit
 
 class BoardView: UIView {
-    var lineWidth: CGFloat = 2 { didSet { setNeedsDisplay() } }
+    var lineWidth: CGFloat = 1 { didSet { setNeedsDisplay() } }
     var color: UIColor = UIColor.black { didSet { setNeedsDisplay() } }
 
     private var boardHeight: CGFloat {
@@ -17,11 +17,11 @@ class BoardView: UIView {
     }
     
     public var gridWidth: CGFloat {
-        return boardHeight / Rules.BoardRows
+        return boardHeight / Board.rows
     }
     
     private var boardWidth: CGFloat {
-        return gridWidth * Rules.BoardColumns
+        return gridWidth * Board.columns
     }
     
     private var boardCenter: CGPoint {

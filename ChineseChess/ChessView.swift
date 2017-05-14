@@ -12,7 +12,7 @@ import UIKit
 class ChessView: UIView {
     
     @IBInspectable
-    var lineWidth: CGFloat = 2 { didSet { setNeedsDisplay(); board.lineWidth = lineWidth } }
+    var lineWidth: CGFloat = 1 { didSet { setNeedsDisplay(); board.lineWidth = lineWidth } }
     @IBInspectable
     var color: UIColor = UIColor.black { didSet { setNeedsDisplay(); board.color = color } }
     
@@ -39,21 +39,14 @@ class ChessView: UIView {
         var ret: [PieceView] = []
         let initialGameStates = Rules.GameStates
 
-        for i in 0...Int(Rules.BoardRows) {
-            for j in 0...Int(Rules.BoardColumns) {
+        for i in 0...Int(Board.rows) {
+            for j in 0...Int(Board.columns) {
                 
-                if !(initialGameStates[i][j] is Piece) {
-                    continue
+                if let piece = initialGameStates[i][j] {
+                    let player = Board.getTerritoryOwner(row: i)
+                    ret.append(PieceView(player, piece, row: i, column: j))
                 }
-                
-                if i < Rules.SideRows { // Black pieces
-                    let piece = PieceView(.Black, initialGameStates[i][j] as! Piece, row: i, column: j)
-                    ret.append(piece)
-                } else { // Red pieces
-                    let piece = PieceView(.Red, initialGameStates[i][j] as! Piece, row: i, column: j)
-                    ret.append(piece)
-                }
-            
+    
             }
         }
         

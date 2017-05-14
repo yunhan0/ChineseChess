@@ -26,27 +26,20 @@ enum Piece {
     case Pawn
 }
 
-class Rules {
-    // Chinese Chess board has 9 rows and 8 columns
-    static let BoardRows: CGFloat = 9
-    static let BoardColumns: CGFloat = 8
-    
-    // Each player got 5 rows as initial territory
-    static let SideRows: Int = 5
-    
-    // As tradition, red player will be the first one to move the piece
+class Rules {  
     static let FirstPlayer: Player = .Red
     
-    static var GameStates : [[Any]] {
+    // Initial game states
+    static var GameStates : [[Piece?]] {
         return BlackPieces + RedPieces
     }
     
-    static var BlackPieces : [[Any]] {
-        return initBlackPieces()
+    static var BlackPieces : [[Piece?]] {
+        return initBlackPiecesStates()
     }
     
-    static var RedPieces : [[Any]] {
-        return initRedPieces()
+    static var RedPieces : [[Piece?]] {
+        return initRedPiecesStates()
     }
     
     /*
@@ -58,19 +51,11 @@ class Rules {
      2 rooks (or chariots),
      2 cannons and 5 pawns (or soldiers).
      */
-    static func initBlackPieces() -> [[Any]] {
-        // Mark black player territory as 0
-        var states = [[Any]](
-            repeating: [Any](repeating: 0, count: Int(Rules.BoardColumns) + 1),
-            count: SideRows
+    private static func initBlackPiecesStates() -> [[Piece?]] {
+        var states = [[Piece?]](
+            repeating: [Piece?](repeating: nil, count: Int(Board.columns) + 1),
+            count: Board.riverBorderIndex
         )
-        
-        // Mark King and Guard's territory as 2
-        for i in 0...2 {
-            for j in 3...5 {
-                states[i][j] = 2
-            }
-        }
         
         states[0][0] = Piece.Rook
         states[0][1] = Piece.Horse
@@ -92,19 +77,12 @@ class Rules {
         return states
     }
     
-    static func initRedPieces() -> [[Any]] {
+    private static func initRedPiecesStates() -> [[Piece?]] {
         // Mark red player territory as 1
-        var states = [[Any]](
-            repeating: [Any](repeating: 1, count: Int(Rules.BoardColumns) + 1),
-            count: SideRows
+        var states = [[Piece?]](
+            repeating: [Piece?](repeating: nil, count: Int(Board.columns) + 1),
+            count: Board.riverBorderIndex
         )
-        
-        // Mark General and Guard's territory as 2
-        for i in 2...4 {
-            for j in 3...5 {
-                states[i][j] = 2
-            }
-        }
         
         states[1][0] = Piece.Pawn
         states[1][2] = Piece.Pawn

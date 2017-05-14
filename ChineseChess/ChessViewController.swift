@@ -17,9 +17,9 @@ class ChessViewController: UIViewController {
         let pieces = chessView.pieceViews
         var idx = 0
         
-        for i in 0...Int(Rules.BoardRows) {
-            for j in 0...Int(Rules.BoardColumns) {
-                if (initialGameStates[i][j] is Piece) {
+        for i in 0...Int(Board.rows) {
+            for j in 0...Int(Board.columns) {
+                if (initialGameStates[i][j] != nil) {
                     pieces[idx].setLocation(row: i, col: j)
                     pieces[idx].center = boardCoordinates[i][j]
                     pieces[idx].isHidden = false
