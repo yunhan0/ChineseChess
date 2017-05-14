@@ -11,26 +11,7 @@ import UIKit
 class ChessViewController: UIViewController {
 
     @IBOutlet weak var chessView: ChessView!
-   
-    @IBAction func replay(_ sender: UIBarButtonItem) {
-        let initialGameStates = Rules.GameStates
-        let pieces = chessView.pieceViews
-        var idx = 0
-        
-        for i in 0...Int(Board.rows) {
-            for j in 0...Int(Board.columns) {
-                if (initialGameStates[i][j] != nil) {
-                    pieces[idx].setLocation(row: i, col: j)
-                    pieces[idx].center = boardCoordinates[i][j]
-                    pieces[idx].isHidden = false
-                    idx += 1
-                }
-            }
-        }
-        
-        brain.replay()
-    }
-    
+
     private var boardView: BoardView {
         return chessView.board
     }
@@ -104,4 +85,24 @@ class ChessViewController: UIViewController {
 
         brain.performMovement(coordinate: boardCoordinates[row][col], row, col)
     }
+    
+    @IBAction func replay(_ sender: UIBarButtonItem) {
+        let initialGameStates = Rules.GameStates
+        let pieces = chessView.pieceViews
+        var idx = 0
+        
+        for i in 0...Int(Board.rows) {
+            for j in 0...Int(Board.columns) {
+                if (initialGameStates[i][j] != nil) {
+                    pieces[idx].setLocation(row: i, col: j)
+                    pieces[idx].center = boardCoordinates[i][j]
+                    pieces[idx].isHidden = false
+                    idx += 1
+                }
+            }
+        }
+        
+        brain.replay()
+    }
+    
 }

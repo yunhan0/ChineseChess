@@ -41,7 +41,7 @@
                                 <action selector="replay:" destination="BYZ-38-t0r" id="6gb-Gb-vWJ"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="悔棋" id="nXo-8A-0i7">
+                        <barButtonItem key="rightBarButtonItem" id="nXo-8A-0i7">
                             <color key="tintColor" red="0.96862745100000003" green="0.95294117649999999" blue="0.94117647059999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         </barButtonItem>
                     </navigationItem>

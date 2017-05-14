@@ -188,11 +188,7 @@ class ChessBrain {
     }
     
     func turnPlayer(player: Player) -> Player {
-        let ret: Player
-        switch player {
-        case .Red: ret = .Black
-        case .Black: ret = .Red
-        }
+        let ret : Player = (player == .Red) ? .Black : .Red
         return ret
     }
     
@@ -221,7 +217,11 @@ class ChessBrain {
     }
     
     func replay() {
+        if let piece = pending {
+            piece.removeBorder()
+        }
         pending = nil
+        
         isAbleToMove = false
         currentPlayer = Rules.FirstPlayer
         gameStates = Rules.GameStates
