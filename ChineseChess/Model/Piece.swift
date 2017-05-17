@@ -16,11 +16,21 @@ class Piece {
     public var locationX: Int
     public var locationY: Int
     
+    // Helper property: pid
+    public var pid: Int
+    static var count: Int = 0
+    
+    private static func generatePid() -> Int {
+        count += 1
+        return count
+    }
+    
     // Constructor
     init(owner: Player, locationX: Int, locationY: Int) {
         self.owner = owner
         self.locationX = locationX
         self.locationY = locationY
+        self.pid = Piece.generatePid()
     }
     
     func isValidMove(_ destinationX: Int, _ destinationY: Int, _ boardStates: [[Piece?]]) -> Bool {
@@ -33,3 +43,4 @@ class Piece {
     }
     
 }
+

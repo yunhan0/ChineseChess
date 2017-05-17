@@ -32,7 +32,8 @@ class ChessViewController: UIViewController {
         return boardCoordinates[9][8]
     }
     
-    private var pieceViews = [PieceView]()
+    // Bind piece model with piece view together
+    private var pieceModelViewReference : Dictionary<Int, PieceView> = [:]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,74 +47,74 @@ class ChessViewController: UIViewController {
             pieceView.addTarget(self,action: #selector(performOperation(sender:)), for: .touchUpInside)
             chessView.addSubview(pieceView)
             
-            pieceViews.append(pieceView)
+            pieceModelViewReference[pieceView.piece.pid] = pieceView
         }
     }
     
     private var brain = ChessBrain()
     
-    private var pending : PieceView?
+    private var pendingView : PieceView?
     
-    func performOperation(sender: PieceView!) {        
-        if pending != nil {
-            if (pending?.piece.owner == sender.piece.owner) {
-                return
-            }
+    func performOperation(sender: PieceView!) {
+        brain.setPiece(piece: sender.piece)
+        
+        if let piece = brain.pending {
+            pendingView = pieceModelViewReference[piece.pid]
+            pendingView?.setBorder(width: 2.0, color: UIColor.white.cgColor)
             
-            let x = sender.piece.locationX, y = sender.piece.locationY
-
-            if (brain.checkMovementAvailability(destinationX: x, destinationY: y)) {
-                
-                pending?.center = boardCoordinates[x][y]
-                sender.isHidden = true
-                
-                if (sender.piece is King) {
-                    if (sender.piece.owner == .Black) {
-                        brain.winner = .Red
-                    } else {
-                        brain.winner = .Black
-                    }
-                    
-                    congratulateWinner()
-                }
-                
-            }
-            
-            pending?.removeBorder()
-            pending = nil
         } else {
-            if (sender.piece.owner == brain.currentPlayer) {
-                brain.setPiece(piece: sender.piece)
-                pending = sender
-                pending?.setBorder(width: 2.0, color: UIColor.white.cgColor)
+            if pendingView != nil {
+                let x = pendingView!.piece.locationX, y = pendingView!.piece.locationY
+                pendingView?.center = boardCoordinates[x][y]
+                
+                if sender.piece.locationX == -1 { // It means sender has been eaten
+                    sender.isHidden = true
+                }
             }
+            clearPendingPieceView()
         }
         
+        checkWinner()
     }
     
     func getCoordinates(recognizer: UITapGestureRecognizer) {
-        let position = recognizer.location(in: boardView),
+       let position = recognizer.location(in: boardView),
         x = round(position.x),
         y = round(position.y)
         
         if(y < boardOrigin.y - gridWidth / 2 || y > boardTermination.y + gridWidth / 2) {
+            clearPendingPieceView()
+            
+            // Clear pending in model
+            brain.pending = nil
+            
             return
         }
         
         let col = Int(round((x - boardOrigin.x) / gridWidth)),
         row = Int(round((y - boardOrigin.y) / gridWidth))
         
-        if (brain.checkMovementAvailability(destinationX: row, destinationY: col)) {
-            pending?.center = boardCoordinates[row][col]
+        // Error handling: If coordinate has piece.
+        if let piece = brain.gameStates[row][col] {
+            performOperation(sender: pieceModelViewReference[piece.pid])
+            return
         }
         
-        if pending != nil {
-            pending?.removeBorder()
-            pending = nil
+        if (brain.checkMovementAvailability(destinationX: row, destinationY: col)) {
+            pendingView?.center = boardCoordinates[row][col]
+        }
+        
+        clearPendingPieceView()
+    }
+ 
+    private func clearPendingPieceView() {
+        if pendingView != nil {
+            pendingView?.removeBorder()
+            pendingView = nil
         }
     }
-
-    func congratulateWinner() {
+    
+    private func checkWinner() {
         if let result = brain.winner {
             let msg : String
             switch result {
@@ -132,7 +133,7 @@ class ChessViewController: UIViewController {
     @IBAction func replay(_ sender: UIBarButtonItem) {
         brain.replay()
 
-        for pv in pieceViews {
+        for (_, pv) in pieceModelViewReference {
             pv.center = boardCoordinates[pv.piece.locationX][pv.piece.locationY]
             pv.isHidden = false
         }

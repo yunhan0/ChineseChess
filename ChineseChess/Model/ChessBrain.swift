@@ -11,8 +11,8 @@ import Foundation
 // UI independent model
 
 class ChessBrain {
-    private var pending : Piece?
-    public var currentPlayer : Player = .Red // Red player is the first one to play
+    public var pending : Piece?
+    private var currentPlayer : Player = .Red // Red player is the first one to play
     public var gameStates = Board.initialBoardStates
     public var winner : Player?
     
@@ -43,7 +43,6 @@ class ChessBrain {
     public func checkMovementAvailability(destinationX: Int, destinationY: Int) -> Bool {
         if let piece = pending {
             if piece.isValidMove(destinationX, destinationY, gameStates) {
-                
                 // Update gamestates
                 gameStates[piece.locationX][piece.locationY] = nil
                 gameStates[destinationX][destinationY] = piece
@@ -63,7 +62,7 @@ class ChessBrain {
     }
     
     private func eatPiece(food: Piece) {
-
+        food.setLocation(x: -1, y: -1)
         if food is King {
             if (food.owner == .Black) {
                 winner = .Red
