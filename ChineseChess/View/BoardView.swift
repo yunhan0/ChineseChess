@@ -2,40 +2,47 @@
 //  BoardView.swift
 //  ChineseChess
 //
-//  Created by Yunhan Li on 5/2/17.
+//  Created by Yunhan Li on 5/16/17.
 //  Copyright © 2017 Yunhan Li. All rights reserved.
 //
 
 import UIKit
 
 class BoardView: UIView {
+
     var lineWidth: CGFloat = 1 { didSet { setNeedsDisplay() } }
     var color: UIColor = UIColor.black { didSet { setNeedsDisplay() } }
-
+    
+    // Chess board has 9 rows grid and 8 columns grid
+    let boardRowsNumber: CGFloat = 9
+    let boardColsNumber: CGFloat = 8
+    
     private var boardHeight: CGFloat {
         return min(bounds.size.width, bounds.size.height)
     }
     
     public var gridWidth: CGFloat {
-        return boardHeight / Board.rows
+        return boardHeight / boardRowsNumber
     }
     
     private var boardWidth: CGFloat {
-        return gridWidth * Board.columns
+        return gridWidth * boardColsNumber
     }
     
     private var boardCenter: CGPoint {
         return CGPoint(x: bounds.midX, y: bounds.midY)
     }
     
-    public var boardCoordinates : [[CGPoint]] {
+    public lazy var boardCoordinates : [[CGPoint]] = self.calculateBoardCoordinates()
+    
+    private func calculateBoardCoordinates() -> [[CGPoint]] {
         let startX = boardCenter.x - (boardWidth / 2),
         startY = boardCenter.y - (boardHeight / 2),
         endX = startX + boardWidth,
         endY = startY + boardHeight
         
         var ret = [[CGPoint]]()
-
+        
         for _y in stride(from: startY, through: endY, by: gridWidth) {
             var foo = [CGPoint]()
             
@@ -45,10 +52,10 @@ class BoardView: UIView {
             
             ret.append(foo)
         }
-
+        
         return ret
     }
-
+    
     public func resetBoardCoordinates() {
         //boardCoordinates.removeAll()
     }
@@ -66,9 +73,9 @@ class BoardView: UIView {
         color.set()
         
         let m = self.boardCoordinates
-
+        
         for i in 0...9 {
-             // Draw the horizontal line
+            // Draw the horizontal line
             pathForLine(startPoint: m[i][0], endPoint: m[i][8]).stroke()
             // Draw the vertical line
             if (i == 0 || i == 8) {

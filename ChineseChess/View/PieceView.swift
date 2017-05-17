@@ -2,52 +2,45 @@
 //  PieceView.swift
 //  ChineseChess
 //
-//  Created by Yunhan Li on 4/29/17.
+//  Created by Yunhan Li on 5/16/17.
 //  Copyright © 2017 Yunhan Li. All rights reserved.
 //
 
 import UIKit
 
-class PieceView: UIButton {
-    public var player: Player
-    public var pieceType: Piece
-    public var row: Int
-    public var column: Int
+class PieceView:  UIButton {
+    var piece: Piece 
     
     var _textColor: UIColor = UIColor.white
     
-    init(_ player: Player,_ piece: Piece, row: Int, column: Int) {
-        self.player = player
-        self.pieceType = piece
-        self.row = row
-        self.column = column
+    init(_ piece: Piece) {
+        self.piece = piece
         super.init(frame: CGRect.zero)
-       
-        self.setup(player, piece)
+        
+        self.setup(piece)
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
-    func setup(_ player: Player, _ piece: Piece) {
+    
+    func setup(_ piece: Piece) {
         let name: String, color: UIColor
         
         switch piece {
-        case .King: name = "将"
-        case .Bishop: name = "象"
-        case .Horse: name = "马"
-        case .Guard: name = "士"
-        case .Rook: name = "車"
-        case .Cannon: name = "炮"
-        case .Soldier: name = "卒"
-        case .General: name = "帅"
-        case .Pawn: name = "兵"
+        case is Bishop: name = "象"
+        case is Horse: name = "马"
+        case is Guard: name = "士"
+        case is Rook: name = "車"
+        case is Cannon: name = "炮"
+        case is Pawn: if (piece.owner == .Black) { name = "卒" } else { name = "兵"}
+        case is King: if (piece.owner == .Black) { name = "将" } else { name = "帅"}
+        default: name = ""
         }
         
         self.setTitle(name, for: .normal)
         
-        switch player {
+        switch piece.owner {
         case .Black: color = .black; transform = transform.rotated(by: CGFloat.pi)
         case .Red: color = .red
         }
@@ -71,8 +64,4 @@ class PieceView: UIButton {
         self.layer.borderWidth = 0.0
     }
     
-    func setLocation(row: Int, col: Int) {
-        self.row = row
-        self.column = col
-    }
 }

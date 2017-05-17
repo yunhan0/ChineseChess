@@ -46,7 +46,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="chessView" destination="Kn5-WM-kl4" id="WYs-ed-XSQ"/>
+                        <outlet property="chessView" destination="Kn5-WM-kl4" id="wyA-MX-fAf"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

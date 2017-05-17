@@ -2,15 +2,14 @@
 //  ChessView.swift
 //  ChineseChess
 //
-//  Created by Yunhan Li on 4/25/17.
+//  Created by Yunhan Li on 5/16/17.
 //  Copyright © 2017 Yunhan Li. All rights reserved.
 //
 
 import UIKit
 
-@IBDesignable
 class ChessView: UIView {
-    
+
     @IBInspectable
     var lineWidth: CGFloat = 1 { didSet { setNeedsDisplay(); board.lineWidth = lineWidth } }
     @IBInspectable
@@ -26,7 +25,7 @@ class ChessView: UIView {
         board.lineWidth = lineWidth
         return board
     }
-
+    
     private func positionBoard(board: BoardView) {
         board.frame = bounds
         board.center = CGPoint(x: bounds.midX, y: bounds.midY)
@@ -37,16 +36,15 @@ class ChessView: UIView {
     
     private func createPieces() -> [PieceView] {
         var ret: [PieceView] = []
-        let initialGameStates = Rules.GameStates
-
-        for i in 0...Int(Board.rows) {
-            for j in 0...Int(Board.columns) {
+        let initialGameStates = Board.initialBoardStates
+        
+        for i in 0...(Board.rows - 1) {
+            for j in 0...(Board.columns - 1) {
                 
                 if let piece = initialGameStates[i][j] {
-                    let player = Board.getTerritoryOwner(row: i)
-                    ret.append(PieceView(player, piece, row: i, column: j))
+                    ret.append(PieceView(piece))
                 }
-    
+                
             }
         }
         
@@ -66,13 +64,16 @@ class ChessView: UIView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-     
+        
         positionBoard(board: self.board)
         
         let m = board.boardCoordinates
         
         for p in pieces {
-            positionPiece(piece: p, center: m[p.row][p.column])
+            let i = p.piece.locationX
+            let j = p.piece.locationY
+            positionPiece(piece: p, center: m[i][j])
         }
     }
+
 }
