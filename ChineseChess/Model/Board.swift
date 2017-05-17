@@ -19,11 +19,7 @@ class Board {
     public static let columns : Int = 9;
     public static let riverRow : Int = 5;
     
-    public static var initialBoardStates : [[Piece?]] = Board.initBoardStates()
-    
-    private static func initBoardStates() -> [[Piece?]] {
-        return initPiecesStates()
-    }
+    public static var initialBoardStates : [[Piece?]] = Board.initPiecesStates()
     
     public static func isForbidden(x: Int, y: Int) -> Bool {
         if (y >= 3 && y <= 5) {
@@ -94,7 +90,7 @@ class Board {
         board[9][6] = Bishop(owner: .Red, locationX: 9, locationY: 6)
         board[9][7] = Horse(owner: .Red, locationX: 9, locationY: 7)
         board[9][8] = Rook(owner: .Red, locationX: 9, locationY: 8)
-        
+
         return board
     }
 
