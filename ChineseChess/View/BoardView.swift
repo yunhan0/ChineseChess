@@ -17,13 +17,10 @@ class BoardView: UIView {
     let boardRowsNumber: CGFloat = 9
     let boardColsNumber: CGFloat = 8
     
-    private var boardHeight: CGFloat {
-        return min(bounds.size.width, bounds.size.height)
-    }
+    private lazy var boardHeight: CGFloat = min(self.bounds.size.width, self.bounds.size.height)
     
-    public var gridWidth: CGFloat {
-        return boardHeight / boardRowsNumber
-    }
+    public lazy var gridWidth: CGFloat = self.boardHeight / self.boardRowsNumber
+   
     
     private var boardWidth: CGFloat {
         return gridWidth * boardColsNumber
