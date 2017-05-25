@@ -59,6 +59,10 @@ class ChessViewController: UIViewController {
         brain.setPiece(piece: sender.piece)
         
         if let piece = brain.pending {
+            // Clear last piece view if exists
+            clearPendingPieceView()
+            
+            // Set the latest piece view
             pendingView = pieceModelViewReference[piece.pid]
             pendingView?.setBorder(width: 2.0, color: UIColor.white.cgColor)
             
@@ -83,11 +87,6 @@ class ChessViewController: UIViewController {
         y = round(position.y)
         
         if(y < boardOrigin.y - gridWidth / 2 || y > boardTermination.y + gridWidth / 2) {
-            clearPendingPieceView()
-            
-            // Clear pending in model
-            brain.pending = nil
-            
             return
         }
         
@@ -102,9 +101,8 @@ class ChessViewController: UIViewController {
         
         if (brain.checkMovementAvailability(destinationX: row, destinationY: col)) {
             pendingView?.center = boardCoordinates[row][col]
+            clearPendingPieceView()
         }
-        
-        clearPendingPieceView()
     }
  
     private func clearPendingPieceView() {
@@ -132,7 +130,8 @@ class ChessViewController: UIViewController {
     
     @IBAction func replay(_ sender: UIBarButtonItem) {
         brain.replay()
-
+        clearPendingPieceView()
+        
         for (_, pv) in pieceModelViewReference {
             pv.center = boardCoordinates[pv.piece.locationX][pv.piece.locationY]
             pv.isHidden = false

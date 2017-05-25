@@ -21,11 +21,12 @@ class ChessBrain {
         if (winner != nil) { return }
         
         if let firstSelection = pending {
-            /* Do nothing if the second piece selection equals the first piece
-             * or they belong to the same player
+            /* If the second piece selection belongs to 
+             * the same player with the first piece, set pending piece to the
+             * second one.
              */
             if ( firstSelection.owner == piece.owner ) {
-                pending = nil
+                pending = piece
                 return
             }
             
@@ -53,8 +54,6 @@ class ChessBrain {
                 
                 pending = nil
                 return true
-            } else {
-                pending = nil
             }
         }
 
