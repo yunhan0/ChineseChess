@@ -52,7 +52,7 @@ class ChessView: UIView {
     }
     
     private func positionPiece(piece: PieceView, center: CGPoint) {
-        let size = board.gridWidth * 0.9
+        let size = board.gridWidth
         piece.frame = CGRect(origin: CGPoint.zero, size: CGSize(width: size, height: size))
         piece.center = center
         piece.setRadius(radius: size / 2)

@@ -64,7 +64,7 @@ class ChessViewController: UIViewController {
             
             // Set the latest piece view
             pendingView = pieceModelViewReference[piece.pid]
-            pendingView?.setBorder(width: 2.0, color: UIColor.white.cgColor)
+            pendingView?.setBorder(width: 1.0, color: UIColor.black.cgColor)
             
         } else {
             if pendingView != nil {

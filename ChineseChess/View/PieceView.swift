@@ -25,34 +25,32 @@ class PieceView:  UIButton {
     }
     
     func setup(_ piece: Piece) {
-        let name: String, color: UIColor
+        var backgroundImgName: String
+ 
+        switch piece.owner {
+        case .Black: backgroundImgName = "black";
+            transform = transform.rotated(by: CGFloat.pi)
+        case .Red: backgroundImgName = "red";
+        }
         
         switch piece {
-        case is Bishop: name = "象"
-        case is Horse: name = "马"
-        case is Guard: name = "士"
-        case is Rook: name = "車"
-        case is Cannon: name = "炮"
-        case is Pawn: if (piece.owner == .Black) { name = "卒" } else { name = "兵"}
-        case is King: if (piece.owner == .Black) { name = "将" } else { name = "帅"}
-        default: name = ""
+        case is Bishop: backgroundImgName += "-bishop"
+        case is Horse: backgroundImgName += "-horse"
+        case is Guard: backgroundImgName += "-guard"
+        case is Rook: backgroundImgName += "-rook"
+        case is Cannon: backgroundImgName += "-cannon"
+        case is Pawn: backgroundImgName += "-pawn"
+        case is King: backgroundImgName += "-king"
+        default: break
         }
         
-        self.setTitle(name, for: .normal)
-        
-        switch piece.owner {
-        case .Black: color = .black; transform = transform.rotated(by: CGFloat.pi)
-        case .Red: color = .red
-        }
-        
-        self.backgroundColor = color
-        self.setTitleColor(_textColor, for: .normal)
+        self.setImage(UIImage(named: backgroundImgName), for: .normal)
         self.layer.masksToBounds = true
         self.layer.display()
     }
     
     func setRadius(radius: CGFloat) {
-        self.layer.cornerRadius = radius
+        // self.layer.cornerRadius = radius
     }
     
     func setBorder(width: CGFloat, color: CGColor) {
