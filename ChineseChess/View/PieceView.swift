@@ -44,13 +44,15 @@ class PieceView:  UIButton {
         default: break
         }
         
-        self.setImage(UIImage(named: backgroundImgName), for: .normal)
+        self.setBackgroundImage(UIImage(named: backgroundImgName), for: .normal)
+        self.setImage(UIImage(named: "cursor"), for: .selected)
+
         self.layer.masksToBounds = true
         self.layer.display()
     }
     
     func setRadius(radius: CGFloat) {
-        // self.layer.cornerRadius = radius
+        self.layer.cornerRadius = radius
     }
     
     func setBorder(width: CGFloat, color: CGColor) {
@@ -62,4 +64,11 @@ class PieceView:  UIButton {
         self.layer.borderWidth = 0.0
     }
     
+    func setSelection() {
+        self.isSelected = true
+    }
+    
+    func removeSelection() {
+        self.isSelected = false
+    }
 }

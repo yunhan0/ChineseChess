@@ -25,6 +25,7 @@
 		B5822FEA1ED71D1000407EAF /* red-pawn.png in Resources */ = {isa = PBXBuildFile; fileRef = B5822FDC1ED71D1000407EAF /* red-pawn.png */; };
 		B5822FEB1ED71D1000407EAF /* red-rook.png in Resources */ = {isa = PBXBuildFile; fileRef = B5822FDD1ED71D1000407EAF /* red-rook.png */; };
 		B5822FED1ED71E5C00407EAF /* black-bishop.png in Resources */ = {isa = PBXBuildFile; fileRef = B5822FEC1ED71E5C00407EAF /* black-bishop.png */; };
+		B5822FF11ED841F800407EAF /* cursor.png in Resources */ = {isa = PBXBuildFile; fileRef = B5822FF01ED841F800407EAF /* cursor.png */; };
 		B59E59321ECC04DD003120FE /* Bishop.swift in Sources */ = {isa = PBXBuildFile; fileRef = B59E592B1ECC04DD003120FE /* Bishop.swift */; };
 		B59E59331ECC04DD003120FE /* Cannon.swift in Sources */ = {isa = PBXBuildFile; fileRef = B59E592C1ECC04DD003120FE /* Cannon.swift */; };
 		B59E59341ECC04DD003120FE /* Guard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B59E592D1ECC04DD003120FE /* Guard.swift */; };
@@ -62,6 +63,7 @@
 		B5822FDC1ED71D1000407EAF /* red-pawn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "red-pawn.png"; sourceTree = "<group>"; };
 		B5822FDD1ED71D1000407EAF /* red-rook.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "red-rook.png"; sourceTree = "<group>"; };
 		B5822FEC1ED71E5C00407EAF /* black-bishop.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "black-bishop.png"; sourceTree = "<group>"; };
+		B5822FF01ED841F800407EAF /* cursor.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cursor.png; sourceTree = "<group>"; };
 		B59E592B1ECC04DD003120FE /* Bishop.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Bishop.swift; path = Model/Pieces/Bishop.swift; sourceTree = "<group>"; };
 		B59E592C1ECC04DD003120FE /* Cannon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Cannon.swift; path = Model/Pieces/Cannon.swift; sourceTree = "<group>"; };
 		B59E592D1ECC04DD003120FE /* Guard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Guard.swift; path = Model/Pieces/Guard.swift; sourceTree = "<group>"; };
@@ -175,6 +177,7 @@
 		B5822FCF1ED71D1000407EAF /* img */ = {
 			isa = PBXGroup;
 			children = (
+				B5822FF01ED841F800407EAF /* cursor.png */,
 				B5822FD01ED71D1000407EAF /* black-cannon.png */,
 				B5822FEC1ED71E5C00407EAF /* black-bishop.png */,
 				B5822FD21ED71D1000407EAF /* black-guard.png */,
@@ -266,6 +269,7 @@
 				B5559A5D1EAF5A210089BF2F /* Main.storyboard in Resources */,
 				B5822FE91ED71D1000407EAF /* red-king.png in Resources */,
 				B5822FE31ED71D1000407EAF /* black-pawn.png in Resources */,
+				B5822FF11ED841F800407EAF /* cursor.png in Resources */,
 				B5822FE41ED71D1000407EAF /* black-rook.png in Resources */,
 				B5822FEA1ED71D1000407EAF /* red-pawn.png in Resources */,
 				B5822FE01ED71D1000407EAF /* black-guard.png in Resources */,
