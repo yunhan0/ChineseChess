@@ -70,9 +70,7 @@ class Cannon : Piece {
                 if nextstate.owner != self.owner {
                     return true
                 }
-                
             }
-            
             return false
         }
         
@@ -80,9 +78,9 @@ class Cannon : Piece {
             if boardStates[move.x][move.y] != nil {
                 obstacleNumber += 1
                 return false
+            } else {
+                return true
             }
-            
-            return true
         }
         
         return false

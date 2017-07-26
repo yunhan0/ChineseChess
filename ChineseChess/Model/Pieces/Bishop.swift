@@ -33,6 +33,11 @@ class Bishop : Piece {
             return false
         }
         
+        // Bishop can not accross the river on the board
+        if ( Board.getTerritoryOwner(x: move.x) != self.owner) {
+            return false
+        }
+        
         let nextState = boardStates[move.x][move.y]
         
         if nextState != nil {
@@ -41,11 +46,6 @@ class Bishop : Piece {
             }
         }
         
-        // Bishop can not accross the river on the board
-        if ( Board.getTerritoryOwner(x: move.x) != self.owner) {
-            return false
-        }
-
         let minrow = min(self.position.x, move.x)
         let mincol = min(self.position.y, move.y)
             

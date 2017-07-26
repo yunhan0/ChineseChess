@@ -107,11 +107,9 @@ class ChessViewController: UIViewController {
     
     private func showPossibleMovesView(_ possibleMoves: [Vector2]) {
         for move in possibleMoves {
-            
             nextPossibleMovesView.append(
                 chessView.createHint(center: boardCoordinates[move.x][move.y])
             )
-            
         }
     }
     

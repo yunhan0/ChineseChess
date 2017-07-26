@@ -74,7 +74,7 @@ class Rook : Piece {
             return false
         }
         
-        if (obstacleNumber == 1) {
+        if (obstacleNumber >= 1) {
             return false
         }
         
