@@ -9,58 +9,80 @@
 import Foundation
 
 class Cannon : Piece {
-    override func isValidMove(_ destinationX: Int, _ destinationY: Int, _ boardStates: [[Piece?]]) -> Bool {
-        var obstacleNumbers: Int
+    private var obstacleNumber: Int = 0
+    
+    override func nextPossibleMoves(boardStates: [[Piece?]]) -> [Vector2] {
+        var ret: [Vector2] = []
         
-        // Case 1: The movement happens in the same row
-        if (self.locationX == destinationX) {
-            
-            let distance = abs(self.locationY - destinationY)
-            
-            if (distance == 1) { // There would not be any obstacles
-                obstacleNumbers = 0
-            } else {
-                let (min, max) = self.locationY > destinationY ? (destinationY, self.locationY) : (self.locationY, destinationY)
-                var ret : Int = 0
-                
-                for i in (min + 1)...(max - 1){
-                    if boardStates[self.locationX][i] != nil { // It means there is obstacle pieces on that row
-                        ret += 1
-                    }
-                }
-                
-                obstacleNumbers = ret
+        // The same row
+        obstacleNumber = 0
+        for _x in stride(from: position.x - 1, through: 0, by: -1) {
+
+            if isValidMove(Vector2(x: _x, y: position.y), boardStates) {
+                ret.append(Vector2(x: _x, y: position.y))
+            }
+        }
+        
+        obstacleNumber = 0
+        for _x in stride(from: position.x + 1, through: Board.rows - 1, by: +1) {
+        
+            if isValidMove(Vector2(x: _x, y: position.y), boardStates) {
+                ret.append(Vector2(x: _x, y: position.y))
             }
             
-        } else if (self.locationY == destinationY) { // Case 2: The movement happens in the same column
-            let distance = abs(self.locationX - destinationX)
+        }
+        
+        // The same column
+        obstacleNumber = 0
+        for _y in stride(from: position.y - 1, through: 0, by: -1) {
             
-            if (distance == 1) {
-                obstacleNumbers = 0
-            } else {
-                let (min, max) = self.locationX > destinationX ? (destinationX, self.locationX) : (self.locationX, destinationX)
-                var ret : Int = 0
-                
-                for i in (min + 1)...(max - 1) {
-                    if boardStates[i][self.locationY] != nil {
-                        ret += 1
-                    }
-                }
-                
-                obstacleNumbers = ret
+            if isValidMove(Vector2(x: position.x, y: _y), boardStates) {
+                ret.append(Vector2(x: position.x, y: _y))
             }
-        } else {
+            
+        }
+        
+        obstacleNumber = 0
+        for _y in stride(from: position.y + 1, through: Board.columns - 1, by: +1) {
+            
+            if isValidMove(Vector2(x: position.x, y: _y), boardStates) {
+                ret.append(Vector2(x: position.x, y: _y))
+            }
+        }
+        
+        return ret
+    }
+    
+    
+    override func isValidMove(_ move: Vector2, _ boardStates: [[Piece?]]) -> Bool {
+        if Board.isOutOfBoard(move) {
             return false
         }
         
-        if (boardStates[destinationX][destinationY] != nil) {
-            if (obstacleNumbers == 1) {
-                return true
+        if obstacleNumber > 1 {
+            return false
+        }
+
+        if obstacleNumber == 1 {
+            if let nextstate = boardStates[move.x][move.y] {
+                obstacleNumber += 1
+                
+                if nextstate.owner != self.owner {
+                    return true
+                }
+                
             }
-        } else {
-            if (obstacleNumbers == 0) {
-                return true
+            
+            return false
+        }
+        
+        if obstacleNumber == 0 {
+            if boardStates[move.x][move.y] != nil {
+                obstacleNumber += 1
+                return false
             }
+            
+            return true
         }
         
         return false

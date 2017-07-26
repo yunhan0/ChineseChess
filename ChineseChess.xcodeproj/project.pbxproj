@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		371EAF8D1F28ABCD00DF6856 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 371EAF8C1F28ABCD00DF6856 /* Utilities.swift */; };
 		B5559A581EAF5A210089BF2F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5559A571EAF5A210089BF2F /* AppDelegate.swift */; };
 		B5559A5D1EAF5A210089BF2F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B5559A5B1EAF5A210089BF2F /* Main.storyboard */; };
 		B5559A5F1EAF5A210089BF2F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B5559A5E1EAF5A210089BF2F /* Assets.xcassets */; };
@@ -43,6 +44,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		371EAF8C1F28ABCD00DF6856 /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Utilities.swift; path = Model/Utilities.swift; sourceTree = "<group>"; };
 		B5559A541EAF5A210089BF2F /* ChineseChess.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChineseChess.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5559A571EAF5A210089BF2F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B5559A5C1EAF5A210089BF2F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -94,9 +96,10 @@
 		B511535B1ECB13EC00558C4F /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				B59E59391ECC04E5003120FE /* Board.swift */,
 				B59E593A1ECC04E5003120FE /* ChessBrain.swift */,
 				B59E593B1ECC04E5003120FE /* Piece.swift */,
+				B59E59391ECC04E5003120FE /* Board.swift */,
+				371EAF8C1F28ABCD00DF6856 /* Utilities.swift */,
 				B5211EE71EC9D49C0023AD71 /* Pieces */,
 			);
 			name = Model;
@@ -123,13 +126,13 @@
 		B5211EE71EC9D49C0023AD71 /* Pieces */ = {
 			isa = PBXGroup;
 			children = (
-				B59E592B1ECC04DD003120FE /* Bishop.swift */,
-				B59E592C1ECC04DD003120FE /* Cannon.swift */,
-				B59E592D1ECC04DD003120FE /* Guard.swift */,
-				B59E592E1ECC04DD003120FE /* Horse.swift */,
 				B59E592F1ECC04DD003120FE /* King.swift */,
+				B59E592D1ECC04DD003120FE /* Guard.swift */,
 				B59E59301ECC04DD003120FE /* Pawn.swift */,
+				B59E592B1ECC04DD003120FE /* Bishop.swift */,
+				B59E592E1ECC04DD003120FE /* Horse.swift */,
 				B59E59311ECC04DD003120FE /* Rook.swift */,
+				B59E592C1ECC04DD003120FE /* Cannon.swift */,
 			);
 			name = Pieces;
 			sourceTree = "<group>";
@@ -290,6 +293,7 @@
 				B59E59321ECC04DD003120FE /* Bishop.swift in Sources */,
 				B59E59371ECC04DD003120FE /* Pawn.swift in Sources */,
 				B59E59351ECC04DD003120FE /* Horse.swift in Sources */,
+				371EAF8D1F28ABCD00DF6856 /* Utilities.swift in Sources */,
 				B59E59361ECC04DD003120FE /* King.swift in Sources */,
 				B59E59341ECC04DD003120FE /* Guard.swift in Sources */,
 				B59E59331ECC04DD003120FE /* Cannon.swift in Sources */,

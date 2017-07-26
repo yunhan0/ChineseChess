@@ -9,7 +9,7 @@
 import UIKit
 
 class ChessView: UIView {
-
+    
     @IBInspectable
     var lineWidth: CGFloat = 1 { didSet { setNeedsDisplay(); board.lineWidth = lineWidth } }
     @IBInspectable
@@ -38,9 +38,8 @@ class ChessView: UIView {
         var ret: [PieceView] = []
         let initialGameStates = Board.initialBoardStates
         
-        for i in 0...(Board.rows - 1) {
-            for j in 0...(Board.columns - 1) {
-                
+        for i in 0 ..< Board.rows {
+            for j in 0 ..< Board.columns {
                 if let piece = initialGameStates[i][j] {
                     ret.append(PieceView(piece))
                 }
@@ -61,7 +60,22 @@ class ChessView: UIView {
         return pieces
     }
     
+    // Possible Move Hints
+    public func createHint(center: CGPoint) -> UIImageView {
+        let size = board.gridWidth * 0.9
+        let hintView = UIImageView(frame: CGRect(x: 0, y: 0, width: size, height: size))
+        hintView.image = UIImage(named: "cursor")
+        hintView.center = center
+        addSubview(hintView)
+        return hintView
+    }
+    
+    public func removeHint(hintView: UIImageView) {
+        hintView.removeFromSuperview()
+    }
+    
     override func layoutSubviews() {
+
         super.layoutSubviews()
         
         positionBoard(board: self.board)
@@ -69,10 +83,11 @@ class ChessView: UIView {
         let m = board.boardCoordinates
         
         for p in pieces {
-            let i = p.piece.locationX
-            let j = p.piece.locationY
+            let i = p.piece.position.x
+            let j = p.piece.position.y
+            
             positionPiece(piece: p, center: m[i][j])
         }
     }
-
+    
 }

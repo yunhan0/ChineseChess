@@ -30,10 +30,10 @@ class ChessBrain {
                 return
             }
             
-            if checkMovementAvailability(destinationX: piece.locationX, destinationY: piece.locationY) {
+            if checkMovementAvailability(destination: piece.position) {
                 eatPiece(food: piece)
             }
-  
+
         } else {
             if (piece.owner == currentPlayer) {
                 pending = piece
@@ -41,13 +41,15 @@ class ChessBrain {
         }
     }
     
-    public func checkMovementAvailability(destinationX: Int, destinationY: Int) -> Bool {
+    public func checkMovementAvailability(destination: Vector2) -> Bool {
         if let piece = pending {
-            if piece.isValidMove(destinationX, destinationY, gameStates) {
+            let nextPossibleMoves = piece.nextPossibleMoves(boardStates: gameStates)
+            
+            if nextPossibleMoves.contains(where: {$0 == destination}) {
                 // Update gamestates
-                gameStates[piece.locationX][piece.locationY] = nil
-                gameStates[destinationX][destinationY] = piece
-                piece.setLocation(x: destinationX, y: destinationY)
+                gameStates[piece.position.x][piece.position.y] = nil
+                gameStates[destination.x][destination.y] = piece
+                piece.setPosition(x: destination.x, y: destination.y)
                 
                 // Next player's turn
                 currentPlayer = turnPlayer(player: currentPlayer)
@@ -56,12 +58,13 @@ class ChessBrain {
                 return true
             }
         }
-
+        
         return false
     }
     
     private func eatPiece(food: Piece) {
-        food.setLocation(x: -1, y: -1)
+        food.deathPenalty()
+        
         if food is King {
             if (food.owner == .Black) {
                 winner = .Red
@@ -69,7 +72,6 @@ class ChessBrain {
                 winner = .Black
             }
         }
-        
     }
     
     private func turnPlayer(player: Player) -> Player {
@@ -89,10 +91,10 @@ class ChessBrain {
         gameStates = Board.initialBoardStates
         winner = nil
         
-        for i in (0...Board.rows - 1) {
-            for j in (0...Board.columns - 1) {
+        for i in (0 ..< Board.rows) {
+            for j in (0 ..< Board.columns) {
                 if let piece = gameStates[i][j] {
-                    piece.setLocation(x: i, y: j)
+                    piece.setPosition(x: i, y: j)
                 }
             }
         }

@@ -9,26 +9,57 @@
 import Foundation
 
 class Horse : Piece {
-    override func isValidMove(_ destinationX: Int, _ destinationY: Int, _ boardStates: [[Piece?]]) -> Bool {
-        // if the manhattan distance to target column and row is 3, it might make a "日" shape
-        let manhattanDistance = abs(self.locationX - destinationX) + abs(self.locationY - destinationY)
+    override func nextPossibleMoves(boardStates: [[Piece?]]) -> [Vector2] {
+        // // For horse, it requires a "日" shape with 3 steps
+        let possibleMoves: [Vector2] = [
+            Vector2(x: position.x - 1, y: position.y + 2),
+            Vector2(x: position.x - 1, y: position.y - 2),
+            Vector2(x: position.x - 2, y: position.y - 1),
+            Vector2(x: position.x - 2, y: position.y + 1),
+            Vector2(x: position.x + 1, y: position.y + 2),
+            Vector2(x: position.x + 1, y: position.y - 2),
+            Vector2(x: position.x + 2, y: position.y + 1),
+            Vector2(x: position.x + 2, y: position.y - 1)
+        ]
         
-        if (manhattanDistance == 3) {
-            let boo = self.locationX < destinationX ? (min: self.locationX, max: destinationX) :
-                (min: destinationX, max: self.locationX)
-            
-            let foo = self.locationY < destinationY ? (min: self.locationY, max: destinationY) :
-                (min: destinationY, max: self.locationY)
-            
-            if (foo.max - foo.min == 2) && (boardStates[self.locationX][foo.min + 1] == nil) {
-                return true
+        var ret : [Vector2] = []
+        
+        for _move in possibleMoves {
+            if isValidMove(_move, boardStates) {
+                ret.append(_move)
             }
-            
-            if (boo.max - boo.min == 2) && (boardStates[boo.min + 1][self.locationY] == nil) {
-                return true
-            }
-            
         }
+        
+        return ret
+    }
+    
+    override func isValidMove(_ move: Vector2, _ boardStates: [[Piece?]]) -> Bool {
+        if Board.isOutOfBoard(move) {
+            return false
+        }
+        
+        let nextState = boardStates[move.x][move.y]
+        
+        if nextState != nil {
+            if nextState?.owner == self.owner {
+                return false
+            }
+        }
+
+        let boo = position.x < move.x ? (min: position.x, max: move.x) :
+            (min: move.x, max: self.position.x)
+            
+        let foo = position.y < move.y ? (min: position.y, max: move.y) :
+            (min: move.y, max: position.y)
+            
+        if (foo.max - foo.min == 2) && (boardStates[position.x][foo.min + 1] == nil) {
+            return true
+        }
+            
+        if (boo.max - boo.min == 2) && (boardStates[boo.min + 1][position.y] == nil) {
+            return true
+        }
+
         return false
     }
 }

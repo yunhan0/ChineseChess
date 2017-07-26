@@ -9,43 +9,85 @@
 import Foundation
 
 class Rook : Piece {
-    override func isValidMove(_ destinationX: Int, _ destinationY: Int, _ boardStates: [[Piece?]]) -> Bool {
-
-        // Case 1: The movement happens in the same row
-        if (self.locationX == destinationX) {
-            let distance = abs(self.locationY - destinationY)
-            
-            if (distance == 1) { // There would not be any obstacles
-                return true
-            } else {
-                let (min, max) = self.locationY > destinationY ? (destinationY, self.locationY) : (self.locationY, destinationY)
-                
-                for i in (min + 1)...(max - 1){
-                    if boardStates[self.locationX][i] != nil { // It means there is obstacle pieces on that row
-                        return false
-                    }
-                }
-                return true
+    private var obstacleNumber: Int = 0
+    
+    override func nextPossibleMoves(boardStates: [[Piece?]]) -> [Vector2] {
+        var ret: [Vector2] = []
+        
+        // The same row
+        obstacleNumber = 0
+        for _x in stride(from: position.x - 1, through: 0, by: -1) {
+            if (obstacleNumber == 1) {
+                break
             }
             
-        } else if (self.locationY == destinationY) { // Case 2: The movement happens in the same column
-            let distance = abs(self.locationX - destinationX)
-            
-            if (distance == 1) {
-                return true
-            } else {
-                let (min, max) = self.locationX > destinationX ? (destinationX, self.locationX) : (self.locationX, destinationX)
-                
-                for i in (min + 1)...(max - 1) {
-                    if boardStates[i][self.locationY] != nil {
-                        return false
-                    }
-                }
-                
-                return true
+            if isValidMove(Vector2(x: _x, y: position.y), boardStates) {
+                ret.append(Vector2(x: _x, y: position.y))
             }
-        } else { // Other cases
+        }
+        
+        obstacleNumber = 0
+        for _x in stride(from: position.x + 1, to: Board.rows, by: +1) {
+            
+            if (obstacleNumber == 1) {
+                break
+            }
+            
+            if isValidMove(Vector2(x: _x, y: position.y), boardStates) {
+                ret.append(Vector2(x: _x, y: position.y))
+            }
+            
+        }
+        
+        // The same column
+        obstacleNumber = 0
+        for _y in stride(from: position.y - 1, through: 0, by: -1) {
+            
+            if (obstacleNumber == 1) {
+                break
+            }
+            
+            if isValidMove(Vector2(x: position.x, y: _y), boardStates) {
+                ret.append(Vector2(x: position.x, y: _y))
+            }
+            
+        }
+        
+        obstacleNumber = 0
+        for _y in stride(from: position.y + 1, to: Board.columns, by: +1) {
+            
+            if (obstacleNumber == 1) {
+                break
+            }
+            
+            if isValidMove(Vector2(x: position.x, y: _y), boardStates) {
+                ret.append(Vector2(x: position.x, y: _y))
+            }
+        }
+        
+        return ret
+    }
+    
+    
+    override func isValidMove(_ move: Vector2, _ boardStates: [[Piece?]]) -> Bool {
+        if Board.isOutOfBoard(move) {
             return false
         }
+        
+        if (obstacleNumber == 1) {
+            return false
+        }
+        
+        if let nextstate = boardStates[move.x][move.y] {
+            obstacleNumber += 1
+            
+            if nextstate.owner == self.owner {
+                return false
+            } else {
+                return true
+            }
+        }
+        
+        return true
     }
 }

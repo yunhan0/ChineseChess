@@ -35,6 +35,8 @@ class ChessViewController: UIViewController {
     // Bind piece model with piece view together
     private var pieceModelViewReference : Dictionary<Int, PieceView> = [:]
     
+    private var nextPossibleMovesView: [UIImageView] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -63,18 +65,22 @@ class ChessViewController: UIViewController {
             clearPendingPieceView()
             
             // Set the latest piece view
+            
             pendingView = pieceModelViewReference[piece.pid]
             pendingView?.setSelection()
+            showPossibleMovesView(piece.nextPossibleMoves(boardStates: brain.gameStates))
             
         } else {
+  
             if pendingView != nil {
-                let x = pendingView!.piece.locationX, y = pendingView!.piece.locationY
+                let x = pendingView!.piece.position.x, y = pendingView!.piece.position.y
                 pendingView?.center = boardCoordinates[x][y]
                 
-                if sender.piece.locationX == -1 { // It means sender has been eaten
+                if sender.piece.status == .Died { // It means sender has been eaten
                     sender.isHidden = true
                 }
             }
+            
             clearPendingPieceView()
         }
         
@@ -91,25 +97,39 @@ class ChessViewController: UIViewController {
         }
         
         let col = Int(round((x - boardOrigin.x) / gridWidth)),
-        row = Int(round((y - boardOrigin.y) / gridWidth))
+            row = Int(round((y - boardOrigin.y) / gridWidth))
         
-        // Error handling: If coordinate has piece.
-        if let piece = brain.gameStates[row][col] {
-            performOperation(sender: pieceModelViewReference[piece.pid])
-            return
-        }
-        
-        if (brain.checkMovementAvailability(destinationX: row, destinationY: col)) {
+        if brain.checkMovementAvailability(destination: Vector2(x: row, y: col)) {
             pendingView?.center = boardCoordinates[row][col]
             clearPendingPieceView()
         }
     }
- 
+    
+    private func showPossibleMovesView(_ possibleMoves: [Vector2]) {
+        for move in possibleMoves {
+            
+            nextPossibleMovesView.append(
+                chessView.createHint(center: boardCoordinates[move.x][move.y])
+            )
+            
+        }
+    }
+    
+    private func clearPossibleMovesView() {
+        for hint in nextPossibleMovesView {
+            chessView.removeHint(hintView: hint)
+        }
+        
+        nextPossibleMovesView = []
+    }
+    
     private func clearPendingPieceView() {
         if pendingView != nil {
             pendingView?.removeSelection()
             pendingView = nil
         }
+        
+        clearPossibleMovesView()
     }
     
     private func checkWinner() {
@@ -133,7 +153,7 @@ class ChessViewController: UIViewController {
         clearPendingPieceView()
         
         for (_, pv) in pieceModelViewReference {
-            pv.center = boardCoordinates[pv.piece.locationX][pv.piece.locationY]
+            pv.center = boardCoordinates[pv.piece.position.x][pv.piece.position.y]
             pv.isHidden = false
         }
     }

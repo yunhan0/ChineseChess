@@ -12,9 +12,11 @@ class Piece {
     // The owner of the piece
     public var owner: Player
     
-    // Record the current location of the piece in the board matrix
-    public var locationX: Int
-    public var locationY: Int
+    // Record the current position/coorditate of the piece in the board matrix
+    public var position: Vector2
+    
+    // The status of the piece
+    public var status: PieceStatus
     
     // Helper property: pid
     public var pid: Int
@@ -26,20 +28,28 @@ class Piece {
     }
     
     // Constructor
-    init(owner: Player, locationX: Int, locationY: Int) {
+    init(owner: Player, position: Vector2) {
         self.owner = owner
-        self.locationX = locationX
-        self.locationY = locationY
+        self.position = position
+        self.status = .Alive
         self.pid = Piece.generatePid()
     }
     
-    func isValidMove(_ destinationX: Int, _ destinationY: Int, _ boardStates: [[Piece?]]) -> Bool {
-        return false
+    public func setPosition(x: Int, y: Int) {
+        position.x = x
+        position.y = y
     }
     
-    func setLocation(x: Int, y: Int) {
-        self.locationX = x
-        self.locationY = y
+    public func deathPenalty() {
+        self.status = .Died
+    }
+    
+    public func nextPossibleMoves(boardStates: [[Piece?]]) -> [Vector2] {
+        return []
+    }
+
+    func isValidMove(_ move: Vector2, _ boardStates: [[Piece?]]) -> Bool {
+        return false
     }
     
 }
