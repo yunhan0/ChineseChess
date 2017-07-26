@@ -35,13 +35,8 @@ class Piece {
         self.pid = Piece.generatePid()
     }
     
-    public func setPosition(x: Int, y: Int) {
-        position.x = x
-        position.y = y
-    }
-    
-    public func deathPenalty() {
-        self.status = .Died
+    public func setPosition(_ position: Vector2) {
+        self.position = position
     }
     
     public func nextPossibleMoves(boardStates: [[Piece?]]) -> [Vector2] {
@@ -50,7 +45,6 @@ class Piece {
 
     func isValidMove(_ move: Vector2, _ boardStates: [[Piece?]]) -> Bool {
         return false
-    }
-    
+    }  
 }
 

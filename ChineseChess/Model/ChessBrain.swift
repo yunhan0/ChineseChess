@@ -49,7 +49,7 @@ class ChessBrain {
                 // Update gamestates
                 gameStates[piece.position.x][piece.position.y] = nil
                 gameStates[destination.x][destination.y] = piece
-                piece.setPosition(x: destination.x, y: destination.y)
+                piece.setPosition(destination)
                 
                 // Next player's turn
                 currentPlayer = turnPlayer(player: currentPlayer)
@@ -63,7 +63,8 @@ class ChessBrain {
     }
     
     private func eatPiece(food: Piece) {
-        food.deathPenalty()
+        // Set the piece status to Died
+        food.status = .Died
         
         if food is King {
             if (food.owner == .Black) {
@@ -85,7 +86,6 @@ class ChessBrain {
     
     // Reset everything
     func replay() {
-        
         pending = nil
         currentPlayer = .Red
         gameStates = Board.initialBoardStates
@@ -94,7 +94,10 @@ class ChessBrain {
         for i in (0 ..< Board.rows) {
             for j in (0 ..< Board.columns) {
                 if let piece = gameStates[i][j] {
-                    piece.setPosition(x: i, y: j)
+                    piece.setPosition(Vector2(x: i, y: j))
+                    
+                    // reset all the piece to Alive status
+                    piece.status = .Alive
                 }
             }
         }
